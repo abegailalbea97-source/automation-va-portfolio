@@ -566,14 +566,13 @@
       will-change: transform, opacity, filter, clip-path;
     }
 
+    /* Default is visible, including if JS is blocked or delayed. */
     .portrait-stage {
-      opacity: 0;
-      transform: translateY(28px) scale(.96);
-      filter: blur(8px);
+      opacity: 1;
     }
 
     body.profile-appear .portrait-stage {
-      animation: holoMaterialize 1.15s cubic-bezier(.2,.8,.2,1) forwards;
+      animation: holoMaterialize 1.15s cubic-bezier(.2,.8,.2,1) both;
       animation-delay: .12s;
     }
 
@@ -583,15 +582,10 @@
 
     body.profile-appear .hologram-wrap {
       animation: holoReveal 1.2s cubic-bezier(.18,.84,.22,1) forwards;
-      clip-path: inset(100% 0 0 0);
-      opacity: 0;
-      filter: brightness(1.35) blur(12px);
     }
 
     body.profile-appear .hologram-photo {
       animation: holoPhotoResolve 1.35s ease-out forwards;
-      opacity: 0;
-      transform: scale(1.04);
     }
 
     body.profile-appear .holo-glitch {
@@ -1057,7 +1051,96 @@
     @media (max-width:760px) { .certificate-grid { grid-template-columns:1fr; } }
     @media (prefers-reduced-motion:reduce) { .certificate-scan { animation:none; } .certificate-card,.certificate-preview img { transition:none; } }
 
-  </style>
+
+    /* Verified scroll-camera override: not dependent on intersection thresholds. */
+    .scene-block,
+    .scene-block.reveal,
+    .scene-block.reveal.visible,
+    .scene-block.scene-in,
+    .scene-block.scene-out-left,
+    .scene-block.scene-out-right {
+      opacity: var(--cam-opacity, 1) !important;
+      filter: none !important;
+      transform: perspective(950px) rotateY(var(--cam-y,0deg))
+                 rotateX(var(--cam-x,0deg)) scale(var(--cam-z,1)) !important;
+      transition: transform 110ms linear, opacity 150ms ease !important;
+      backface-visibility: hidden;
+    }
+    .scene-block > * { backface-visibility: hidden; }
+    @media (max-width:760px), (prefers-reduced-motion:reduce) {
+      .scene-block, .scene-block.reveal, .scene-block.reveal.visible {
+        transform: none !important;
+        opacity: 1 !important;
+        transition: none !important;
+      }
+    }
+
+  
+/* GAIL.SYS Holographic robot presenter. SVG and CSS only. */
+#aiPresenter{position:fixed;right:18px;bottom:18px;z-index:1000;width:min(320px,calc(100vw - 30px));color:#eafff0;font-family:"Courier New",monospace;pointer-events:none;animation:presenterEntrance .9s both}
+#aiPresenter *{box-sizing:border-box}
+#aiPresenter .presenter-panel{pointer-events:auto;position:relative;display:grid;grid-template-columns:105px minmax(0,1fr);align-items:end;gap:7px;padding:13px 12px 14px;background:linear-gradient(145deg,rgba(4,25,18,.95),rgba(3,9,9,.96));border:1px solid rgba(57,255,136,.65);border-radius:16px;box-shadow:0 12px 45px #000b,0 0 22px #39ff882c,inset 0 0 18px #39ff880a;backdrop-filter:blur(15px)}
+#aiPresenter .presenter-panel::before{content:"";position:absolute;inset:5px;border:1px solid #39ff8822;border-radius:12px;pointer-events:none}
+#aiPresenter .robot-art{width:104px;height:148px;display:block;overflow:visible;filter:drop-shadow(0 0 9px #39ff8855);transform-origin:50% 90%;animation:robotHover 3.8s ease-in-out infinite}
+#aiPresenter .robot-head{transform-origin:56px 53px;animation:robotHead 5s ease-in-out infinite}
+#aiPresenter .robot-arm{transform-origin:83px 88px;animation:robotGesture 3.2s ease-in-out infinite alternate}
+#aiPresenter .robot-eye{animation:robotEye 5.4s ease-in-out infinite}
+#aiPresenter .robot-core{animation:robotCore 2.4s ease-in-out infinite alternate}
+#aiPresenter .robot-scan{animation:robotScan 4s linear infinite}
+#aiPresenter .robot-base{animation:robotBase 2.6s ease-in-out infinite alternate}
+#aiPresenter .presenter-dialog{min-width:0;align-self:center;padding:7px 2px 2px}
+#aiPresenter .robot-meta{color:#85ffaa;font-size:9px;letter-spacing:.11em;line-height:1.4;margin-bottom:7px}
+#aiPresenter #presenterTopic{color:#b5ff45;font-size:11px;font-weight:bold;letter-spacing:.05em;line-height:1.5;margin-bottom:7px}
+#aiPresenter #presenterText{font-size:11px;line-height:1.55;color:#e8fff1;min-height:64px;margin:0}
+#aiPresenter .robot-controls{display:flex;gap:7px;margin-top:11px;flex-wrap:wrap}
+#aiPresenter button{font:inherit;font-size:10px;color:#b5ff45;border:1px solid #39ff8870;border-radius:6px;background:#0b2419;padding:5px 9px;cursor:pointer!important}
+#aiPresenter button:hover,#aiPresenter button:focus-visible{outline:2px solid #b5ff45;outline-offset:2px;background:#17452d}
+#aiPresenter .robot-toggle{pointer-events:auto;position:absolute;right:0;bottom:0;background:#092318;box-shadow:0 0 16px #39ff8844;padding:10px 12px;display:none}
+#aiPresenter.is-collapsed{width:132px;height:39px}
+#aiPresenter.is-collapsed .presenter-panel{display:none}
+#aiPresenter.is-collapsed .robot-toggle{display:block}
+#aiPresenter.is-talking .presenter-panel{box-shadow:0 12px 45px #000b,0 0 26px #39ff8866,inset 0 0 19px #39ff881a}
+#aiPresenter.is-talking #presenterText{animation:dialogRise .28s ease both}
+@keyframes presenterEntrance{from{opacity:0;transform:translateY(25px) scale(.92)}to{opacity:1;transform:none}}
+@keyframes robotHover{0%,100%{transform:translateY(2px)}50%{transform:translateY(-8px)}}
+@keyframes robotHead{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(4deg)}}
+@keyframes robotGesture{0%,20%{transform:rotate(4deg)}60%,100%{transform:rotate(-18deg)}}
+@keyframes robotEye{0%,44%,48%,100%{opacity:1}46%{opacity:.06}}
+@keyframes robotCore{from{opacity:.5}to{opacity:1}}
+@keyframes robotScan{from{transform:translateY(-24px)}to{transform:translateY(26px)}}
+@keyframes robotBase{from{opacity:.35;transform:scaleX(.85)}to{opacity:.9;transform:scaleX(1.12)}}
+@keyframes dialogRise{from{opacity:.3;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media(max-width:760px){#aiPresenter{right:8px;bottom:8px;width:min(270px,calc(100vw - 16px))}#aiPresenter .presenter-panel{grid-template-columns:72px 1fr;padding:10px 9px}#aiPresenter .robot-art{width:72px;height:112px}#aiPresenter #presenterText{min-height:auto;font-size:10px}#aiPresenter .robot-meta{font-size:8px}#aiPresenter .robot-controls{margin-top:7px}}
+@media(prefers-reduced-motion:reduce){#aiPresenter,#aiPresenter .robot-art,#aiPresenter .robot-head,#aiPresenter .robot-arm,#aiPresenter .robot-eye,#aiPresenter .robot-core,#aiPresenter .robot-scan,#aiPresenter .robot-base,#aiPresenter.is-talking #presenterText{animation:none!important}}
+
+
+/* AL modern slide/camera presentation upgrades */
+.scene-block,.scene-block.reveal,.scene-block.reveal.visible,
+.scene-block.scene-in,.scene-block.scene-out-left,.scene-block.scene-out-right {
+  transform:perspective(1100px) rotateY(var(--cam-y,0deg)) rotateX(var(--cam-x,0deg)) rotateZ(var(--cam-roll,0deg)) translateY(var(--cam-shift,0px)) scale(var(--cam-z,1)) !important;
+  transform-origin:50% 50%;
+  opacity:var(--cam-opacity,1) !important;
+  will-change:transform;
+}
+body { background-attachment:fixed; }
+#aiPresenter{width:min(362px,calc(100vw - 28px));}
+#aiPresenter .presenter-panel{grid-template-columns:96px minmax(0,1fr);}
+#aiPresenter .robot-art{width:96px;}
+#aiPresenter .robot-quick-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;margin-top:10px}
+#aiPresenter .robot-quick-nav button{font-size:9px;text-align:left;padding:7px 6px;overflow-wrap:anywhere}
+#aiPresenter .robot-quick-nav button:hover{background:#185236;}
+#aiPresenter .presenter-dialog{max-height:255px;overflow:auto;}
+#aiPresenter #presenterText{min-height:0;}
+@media(max-width:760px){
+  .scene-block,.scene-block.reveal,.scene-block.reveal.visible,.scene-block.scene-in {transform:none!important;opacity:1!important;}
+  #aiPresenter{width:min(300px,calc(100vw - 16px));}
+  #aiPresenter .presenter-panel{grid-template-columns:66px minmax(0,1fr);}
+  #aiPresenter .robot-art{width:66px;height:108px}
+  #aiPresenter .robot-quick-nav{grid-template-columns:repeat(2,minmax(0,1fr));}
+  #aiPresenter .robot-quick-nav button{font-size:8px}
+}
+@media(prefers-reduced-motion:reduce){.scene-block,.scene-block.reveal,.scene-block.reveal.visible{transform:none!important;opacity:1!important}}
+</style>
 </head>
 
 <body>
@@ -1069,6 +1152,7 @@
     <div class="nav-links">
       <a href="#about">PROFILE</a>
       <a href="#skills">SYSTEMS</a>
+      <a href="#certificates">CERTIFICATES</a>
       <a href="#projects">PROJECTS</a>
       <a href="#experience">LOGS</a>
       <a href="#contact">CONTACT</a>
@@ -1472,54 +1556,182 @@
 </script>
 
   <script>
+    // Cinematic scroll camera: continuous angle and depth based on viewport position.
     (() => {
-      const scenes = Array.from(document.querySelectorAll(".scene-block[data-scene]"));
-      const body = document.body;
-      if (!scenes.length) return;
-
-      const updateScene = (id) => {
-        body.classList.remove(
-          "scene-home","scene-about","scene-skills","scene-certificates",
-          "scene-projects","scene-experience","scene-contact"
-        );
-        body.classList.add(`scene-${id}`);
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          const target = entry.target;
-          const angleLeft = target.classList.contains("angle-left");
-          const angleRight = target.classList.contains("angle-right");
-
-          if (entry.isIntersecting && entry.intersectionRatio > 0.35) {
-            scenes.forEach((el) => el.classList.remove("scene-in"));
-            target.classList.add("scene-in");
-            target.classList.remove("scene-out-left", "scene-out-right");
-            updateScene(target.dataset.scene);
-          } else {
-            target.classList.remove("scene-in");
-            if (angleLeft) {
-              target.classList.add("scene-out-left");
-              target.classList.remove("scene-out-right");
-            } else if (angleRight) {
-              target.classList.add("scene-out-right");
-              target.classList.remove("scene-out-left");
-            }
+      const scenes = [...document.querySelectorAll('.scene-block[data-scene]')];
+      const sceneNames = ['home','about','skills','certificates','projects','experience','contact'];
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+      let scheduled = false;
+      const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+      function render() {
+        scheduled = false;
+        const vh = window.innerHeight || 800;
+        let closest = null;
+        let minDistance = Infinity;
+        for (const scene of scenes) {
+          const rect = scene.getBoundingClientRect();
+          // Viewport midpoint relative to the section center. Negative = below center.
+          const displacement = (rect.top + rect.height / 2 - vh / 2) / Math.max(vh, 1);
+          const distance = Math.abs(displacement);
+          if (distance < minDistance) { minDistance = distance; closest = scene; }
+          if (reduce.matches) {
+            scene.style.removeProperty('--cam-y');
+            scene.style.removeProperty('--cam-x');
+            scene.style.removeProperty('--cam-roll');
+            scene.style.removeProperty('--cam-shift');
+            scene.style.removeProperty('--cam-z');
+            scene.style.removeProperty('--cam-opacity');
+            continue;
           }
-        });
-      }, { threshold: [0.2, 0.35, 0.6] });
-
-      scenes.forEach((scene, index) => {
-        if (index === 0) {
-          scene.classList.add("scene-in");
-          updateScene(scene.dataset.scene);
-        } else {
-          scene.classList.remove("scene-in");
+          // Distinct PowerPoint-like camera moves: orbit, tilt, flip, dolly and arc.
+          const presets = {
+            home:         {yaw:  12, pitch: -5, roll:  0, depth:.045},
+            about:        {yaw: -22, pitch:  4, roll: -2, depth:.065},
+            skills:       {yaw:  23, pitch: -6, roll:  2, depth:.080},
+            certificates: {yaw: -12, pitch: 14, roll: -2, depth:.075},
+            projects:     {yaw:  26, pitch: -2, roll:  4, depth:.090},
+            experience:   {yaw: -15, pitch:-12, roll: -3, depth:.060},
+            contact:      {yaw:   0, pitch: 15, roll:  0, depth:.085}
+          };
+          const p = presets[scene.dataset.scene] || presets.home;
+          const shift = clamp(displacement * 1.15, -1, 1);
+          const rx = p.pitch * shift;
+          const ry = p.yaw * shift;
+          const rz = p.roll * shift;
+          const scale = 1 - p.depth * Math.abs(shift);
+          scene.style.setProperty('--cam-y', ry.toFixed(2) + 'deg');
+          scene.style.setProperty('--cam-x', rx.toFixed(2) + 'deg');
+          scene.style.setProperty('--cam-roll', rz.toFixed(2) + 'deg');
+          scene.style.setProperty('--cam-shift', (shift * 28).toFixed(1) + 'px');
+          scene.style.setProperty('--cam-z', scale.toFixed(3));
+          scene.style.setProperty('--cam-opacity', clamp(1.12 - distance * .22,.75,1).toFixed(2));
         }
-        observer.observe(scene);
-      });
+        if (closest) {
+          const next = `scene-${closest.dataset.scene}`;
+          if (!document.body.classList.contains(next)) {
+            document.body.classList.remove(...sceneNames.map(x=>'scene-'+x));
+            document.body.classList.add(next);
+          }
+          document.documentElement.style.setProperty('--camera-hue',
+            ({home:0,about:34,skills:85,certificates:150,projects:225,experience:290,contact:340})[closest.dataset.scene]+'deg');
+        }
+      }
+      function requestRender() {
+        if (!scheduled) { scheduled = true; requestAnimationFrame(render); }
+      }
+      window.addEventListener('scroll', requestRender, {passive:true});
+      window.addEventListener('resize', requestRender, {passive:true});
+      reduce.addEventListener?.('change', requestRender);
+      render();
     })();
   </script>
+
+
+  <script>
+    // Play the holographic entrance once the real photo has loaded.
+    (() => {
+      const photo = document.querySelector('.hologram-photo');
+      const stage = document.querySelector('.portrait-stage');
+      if (!photo || !stage) return;
+      const play = () => {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        document.body.classList.add('profile-appear');
+      };
+      if (photo.complete && photo.naturalWidth > 0) play();
+      else photo.addEventListener('load', play, { once: true });
+      photo.addEventListener('error',()=>{stage.style.opacity='1';stage.style.filter='none';});
+    })();
+  </script>
+
+<!-- Holographic robot presenter: no external services and no voice autoplay. -->
+<aside id="aiPresenter" aria-label="AI robot portfolio guide">
+  <div class="presenter-panel">
+    <svg class="robot-art" viewBox="0 0 112 150" role="img" aria-label="Animated holographic robot guide" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="robotMetal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a1bbaf"/><stop offset=".48" stop-color="#203e37"/><stop offset="1" stop-color="#091c16"/></linearGradient><linearGradient id="robotFace" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#173d2f"/><stop offset="1" stop-color="#04120e"/></linearGradient></defs>
+      <ellipse class="robot-base" cx="55" cy="141" rx="43" ry="6" fill="#39ff88" opacity=".5"/>
+      <path d="M20 136h72M26 130h60" stroke="#39ff88" stroke-width="1" opacity=".55"/>
+      <g><path d="M35 81L22 96l5 28 19-1 8-17M78 81l12 19-6 24-20-1-8-17" fill="url(#robotMetal)" stroke="#39ff88" stroke-width="1.7"/><path d="M38 93h36l9 35H29z" fill="url(#robotMetal)" stroke="#39ff88" stroke-width="2"/><path d="M39 101h34l3 21H36z" fill="#071f18" stroke="#39ff88" stroke-opacity=".5"/><circle class="robot-core" cx="56" cy="111" r="8" fill="#39ff88" opacity=".95"/><circle cx="56" cy="111" r="3" fill="#effff4"/></g>
+      <g class="robot-arm"><path d="M82 85l16-2 8 18-6 5-17-8z" fill="url(#robotMetal)" stroke="#39ff88" stroke-width="1.8"/><path d="M101 104l4 9-7 6-8-9z" fill="#1c4836" stroke="#39ff88" stroke-width="1.5"/><path d="M102 112l7-3M101 114l9 2" stroke="#b5ff45" stroke-width="2" stroke-linecap="round"/></g>
+      <g class="robot-head"><path d="M56 8v12" stroke="#39ff88" stroke-width="2.5"/><circle cx="56" cy="7" r="4" fill="#b5ff45"/><path d="M20 30L33 19h46l14 12v37L79 80H32L19 68z" fill="url(#robotMetal)" stroke="#8affbb" stroke-width="2.5"/><path d="M25 34l11-8h40l11 8v29L76 73H36L25 63z" fill="url(#robotFace)" stroke="#39ff88" stroke-opacity=".7"/><path d="M28 42h56" stroke="#39ff88" opacity=".2"/><path d="M31 49h50v12H31z" fill="#030f0a"/><rect class="robot-eye" x="35" y="48" width="16" height="9" rx="4" fill="#b5ff45"/><rect class="robot-eye" x="62" y="48" width="16" height="9" rx="4" fill="#b5ff45"/><path d="M46 65h20" stroke="#39ff88" stroke-width="2" stroke-linecap="round"/><path d="M16 47h7v12h-7zM89 47h7v12h-7z" fill="#2e7958" stroke="#39ff88" stroke-width="1.5"/><path class="robot-scan" d="M28 42h57" stroke="#c5ffe0" opacity=".5" stroke-width="1"/></g>
+    </svg>
+    <div class="presenter-dialog" aria-live="polite" aria-atomic="true">
+      <div class="robot-meta">● AL // VIRTUAL ASSISTANT</div>
+      <div id="presenterTopic">HI, I’M AL</div>
+      <p id="presenterText">Hi, I’m AL. I’m here to guide you through Gail’s portfolio. How may I help you today?</p>
+      <div class="robot-quick-nav" aria-label="Portfolio quick navigation"><button type="button" data-go="about">PROFILE ↗</button><button type="button" data-go="skills">SKILLS ↗</button><button type="button" data-go="certificates">CERTIFICATES ↗</button><button type="button" data-go="projects">PROJECTS ↗</button><button type="button" data-go="experience">EXPERIENCE ↗</button><button type="button" data-go="contact">CONTACT ↗</button></div>
+      <div class="robot-controls"><button type="button" id="presenterReplay" aria-label="Replay guide message">REPLAY</button><button type="button" id="presenterHide">HIDE ROBOT</button></div>
+    </div>
+  </div>
+  <button type="button" class="robot-toggle" id="presenterShow" aria-label="Show robot presenter">SHOW AI GUIDE</button>
+</aside>
+
+
+<script>
+/* Section-aware holographic robot presenter. No network requests. */
+(() => {
+  const host=document.getElementById('aiPresenter');
+  if(!host)return;
+  const topic=document.getElementById('presenterTopic');
+  const output=document.getElementById('presenterText');
+  const messages={
+    home:['HI, I’M AL',"Hi, I’m AL. I’m here to guide you through Gail’s portfolio. How may I help you today?"],
+    about:['OPERATOR PROFILE',"Meet Abegail Albea. Her background is in operations, documentation, and customer support."],
+    skills:['TECHNOLOGY MATRIX',"Explore Gail's developing skills in Zapier, Make.com, n8n, and GoHighLevel."],
+    certificates:['CERTIFICATE DATABASE',"Access four training completion certificates and view the original documents."],
+    projects:['AUTOMATION TEST LAB',"View practice automation workflows and interactive demonstration projects."],
+    experience:['OPERATIONAL LOGS',"Review Gail's experience in branch operations, public service, and research."],
+    contact:['ESTABLISH CONNECTION',"Interested in working with Gail? Use the email or phone contact buttons."]
+  };
+  let active='';
+  let timer;
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
+  function present(key,force=false){
+    if(!messages[key]||(!force&&key===active))return;
+    active=key;
+    const [title,message]=messages[key];
+    clearTimeout(timer);
+    topic.textContent=title;
+    output.textContent=message;
+    host.classList.remove('is-talking');
+    void host.offsetWidth;
+    if(!reduce.matches)host.classList.add('is-talking');
+    timer=setTimeout(()=>host.classList.remove('is-talking'),450);
+  }
+  const sections=[...document.querySelectorAll('[data-scene]')];
+  let scheduled=false;
+  function update(){
+    scheduled=false;
+    const center=window.innerHeight*.45;
+    let nearest=null,score=Infinity;
+    for(const section of sections){
+      const rect=section.getBoundingClientRect();
+      // Center on what is visible; prevent extremely tall sections dominating.
+      const visibleTop=Math.max(0,rect.top);
+      const visibleBottom=Math.min(window.innerHeight,rect.bottom);
+      const midpoint=visibleBottom>visibleTop?(visibleTop+visibleBottom)/2:rect.top+rect.height/2;
+      const distance=Math.abs(midpoint-center);
+      if(distance<score){score=distance;nearest=section;}
+    }
+    if(nearest)present(nearest.dataset.scene);
+  }
+  const requestUpdate=()=>{if(!scheduled){scheduled=true;requestAnimationFrame(update);}};
+  window.addEventListener('scroll',requestUpdate,{passive:true});
+  window.addEventListener('resize',requestUpdate,{passive:true});
+  host.querySelectorAll('[data-go]').forEach(button=>{
+    button.addEventListener('click',()=>{
+      const id=button.dataset.go;
+      const target=document.getElementById(id);
+      if(!target)return;
+      present(id,true);
+      target.scrollIntoView({behavior:reduce.matches?'instant':'smooth',block:'start'});
+    });
+  });
+  document.getElementById('presenterReplay').addEventListener('click',()=>present(active||'home',true));
+  document.getElementById('presenterHide').addEventListener('click',()=>{host.classList.add('is-collapsed');});
+  document.getElementById('presenterShow').addEventListener('click',()=>{host.classList.remove('is-collapsed');requestUpdate();});
+  update();
+})();
+</script>
 
 </body>
 </html>
