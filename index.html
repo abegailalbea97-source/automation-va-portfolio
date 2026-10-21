@@ -1578,6 +1578,17 @@ nav .header-book { background:#39ff88;color:#041008;box-shadow:0 0 15px rgba(57,
 nav .header-cta:hover,nav .header-cta:focus-visible { transform:translateY(-2px);box-shadow:0 0 21px rgba(57,255,136,.38); }
 nav .header-book:hover,nav .header-book:focus-visible { color:#041008; }
 @media(max-width:760px) { nav .nav-links { gap:10px; } nav .header-cta { padding:8px 9px;font-size:10px; } }
+
+/* Fast demo loading: avoid expensive blur/compositing and suspend offscreen effects. */
+.demo-overlay {backdrop-filter:none !important; -webkit-backdrop-filter:none !important;background:rgba(0,6,4,.96) !important;contain:layout paint;}
+.demo-window {box-shadow:0 14px 32px rgba(0,0,0,.6),0 0 12px rgba(57,255,136,.13) !important;}
+body.demo-open #matrix, body.demo-open .camera-orbit, body.demo-open #sceneBackdrops, body.demo-open .portrait-stage,
+body.demo-open .certificate-scan, body.demo-open #aiPresenter, body.demo-open .ufo-drop::before,
+body.demo-open .ufo-drop::after {animation-play-state:paused !important;}
+body.demo-open #matrix {visibility:hidden;}
+/* Do not fade or transform the open demo dialog. */
+.demo-overlay:not([hidden]) .demo-window {animation:none !important;transform:none !important;opacity:1 !important;}
+
 </style>
 </head>
 
@@ -1928,7 +1939,12 @@ nav .header-book:hover,nav .header-book:focus-visible { color:#041008; }
       );
     }
 
-    function drawMatrix() {
+    let lastMatrixFrame = 0;
+    function drawMatrix(now = 0) {
+      // Keep the background animation lightweight (about 18fps rather than 60fps).
+      requestAnimationFrame(drawMatrix);
+      if (document.hidden || now - lastMatrixFrame < 55) return;
+      lastMatrixFrame = now;
       ctx.fillStyle = "rgba(5, 8, 7, 0.09)";
       ctx.fillRect(0, 0, width, height);
       ctx.fillStyle = "#39ff88";
@@ -1943,7 +1959,6 @@ nav .header-book:hover,nav .header-book:focus-visible { color:#041008; }
           drops[i] += 0.45;
         }
       });
-      requestAnimationFrame(drawMatrix);
     }
 
     setupMatrix();
