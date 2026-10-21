@@ -1,0 +1,584 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050807" />
+  <meta name="description" content="Abegail Albea — Automation Virtual Assistant portfolio." />
+  <title>Abegail Albea | Automation VA</title>
+
+  <style>
+    :root {
+      --bg: #050807;
+      --panel: rgba(9, 22, 16, 0.88);
+      --green: #39ff88;
+      --lime: #b5ff45;
+      --text: #effff4;
+      --muted: #9aafa2;
+      --border: rgba(57, 255, 136, 0.25);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background: var(--bg);
+      font-family: "Courier New", monospace;
+      overflow-x: hidden;
+    }
+
+    #matrix {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: .15;
+      pointer-events: none;
+      z-index: -2;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse at 20% 20%, #0c42264a, transparent 45%),
+        radial-gradient(ellipse at 80% 60%, #154f3240, transparent 40%),
+        linear-gradient(transparent 96%, #39ff8810 97%);
+      background-size: auto, auto, 100% 5px;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 18px 7%;
+      background: #050807eF;
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(14px);
+    }
+
+    .logo {
+      color: var(--green);
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 22px;
+      flex-wrap: wrap;
+      font-size: 12px;
+    }
+
+    .nav-links a:hover { color: var(--green); }
+
+    .hero {
+      min-height: 88vh;
+      display: grid;
+      grid-template-columns: 1.3fr .7fr;
+      align-items: center;
+      gap: 55px;
+      padding: 90px 9%;
+    }
+
+    .status {
+      display: inline-block;
+      color: var(--green);
+      border: 1px solid var(--border);
+      background: #39ff880b;
+      padding: 9px 13px;
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+
+    h1 {
+      margin: 24px 0 12px;
+      font-size: clamp(38px, 6vw, 76px);
+      line-height: 1.04;
+      letter-spacing: -3px;
+    }
+
+    h1 span, .green { color: var(--green); }
+
+    h2 {
+      font-size: clamp(24px, 4vw, 38px);
+      margin-top: 0;
+    }
+
+    .subtitle {
+      color: var(--lime);
+      letter-spacing: 3px;
+      font-size: 14px;
+    }
+
+    .intro, .section-text {
+      color: var(--muted);
+      line-height: 1.9;
+      max-width: 650px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .btn {
+      padding: 14px 18px;
+      border: 1px solid var(--green);
+      color: var(--green);
+      font: inherit;
+      font-size: 12px;
+      transition: .25s;
+    }
+
+    .btn.primary {
+      background: var(--green);
+      color: #041008;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      box-shadow: 0 0 24px #39ff8855;
+      transform: translateY(-3px);
+    }
+
+    .robot-frame {
+      position: relative;
+      width: min(100%, 330px);
+      aspect-ratio: 1;
+      margin: auto;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--green);
+      clip-path: polygon(15% 0,85% 0,100% 15%,100% 85%,85% 100%,15% 100%,0 85%,0 15%);
+      background:
+        repeating-linear-gradient(0deg, transparent 0 19px, #39ff8810 20px),
+        repeating-linear-gradient(90deg, transparent 0 19px, #39ff8810 20px),
+        #07120c;
+      box-shadow: 0 0 40px #39ff8818, inset 0 0 40px #39ff8810;
+    }
+
+    .robot-frame::before {
+      content: "";
+      position: absolute;
+      inset: 12px;
+      border: 1px dashed #39ff8870;
+      animation: rotate 30s linear infinite;
+    }
+
+    .portrait {
+      width: 76%;
+      height: 76%;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid var(--green);
+      box-shadow: 0 0 30px #39ff8830;
+    }
+
+    .portrait-placeholder {
+      width: 76%;
+      aspect-ratio: 1;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 20px;
+      color: var(--green);
+      line-height: 1.8;
+      font-size: 12px;
+    }
+
+    section { padding: 85px 9%; }
+
+    .section-label {
+      color: var(--green);
+      letter-spacing: 3px;
+      font-size: 12px;
+      margin-bottom: 14px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat( auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-top: 32px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 25px;
+      position: relative;
+      transition: .3s;
+    }
+
+    .card:hover {
+      border-color: var(--green);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 35px #39ff8810;
+    }
+
+    .card h3 { color: var(--green); }
+
+    .card p, .card li {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 14px;
+    }
+
+    .tag {
+      display: inline-block;
+      color: var(--lime);
+      border: 1px solid var(--border);
+      padding: 5px 8px;
+      font-size: 10px;
+      margin: 4px 4px 0 0;
+    }
+
+    .timeline {
+      border-left: 1px solid var(--green);
+      padding-left: 25px;
+      margin-top: 30px;
+    }
+
+    .timeline .card { margin-bottom: 20px; }
+
+    .contact-box {
+      border: 1px solid var(--green);
+      background: #39ff8808;
+      padding: clamp(24px, 5vw, 50px);
+      text-align: center;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 25px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .7s, transform .7s;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes rotate { to { transform: rotate(360deg); } }
+
+    @media (max-width: 760px) {
+      nav { align-items: flex-start; flex-direction: column; }
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 70px 7%;
+      }
+      .intro { margin-inline: auto; }
+      .buttons { justify-content: center; }
+      .robot-frame { width: min(75vw, 280px); }
+      section { padding: 65px 7%; }
+      h1 { letter-spacing: -2px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="matrix" aria-hidden="true"></canvas>
+
+  <nav>
+    <a class="logo" href="#home">GAIL.SYS</a>
+    <div class="nav-links">
+      <a href="#about">PROFILE</a>
+      <a href="#skills">SYSTEMS</a>
+      <a href="#projects">PROJECTS</a>
+      <a href="#experience">LOGS</a>
+      <a href="#contact">CONTACT</a>
+    </div>
+  </nav>
+
+  <main>
+    <header class="hero" id="home">
+      <div>
+        <div class="status">● SYSTEM STATUS: OPEN TO REMOTE OPPORTUNITIES</div>
+        <h1>ABEGAIL<br /><span>ALBEA</span></h1>
+        <div class="subtitle">AUTOMATION VIRTUAL ASSISTANT</div>
+        <p class="intro">
+          Connecting systems. Automating workflows. Creating smarter processes.
+          I bring a background in operations, customer service, financial
+          documentation, and administrative support while building my skills
+          in workflow automation.
+        </p>
+        <div class="buttons">
+          <a class="btn primary" href="#projects">ACCESS PROJECT LAB</a>
+          <a class="btn" href="#contact">INITIATE CONTACT</a>
+        </div>
+      </div>
+
+      <div class="robot-frame" aria-label="Profile photo placeholder">
+        <!-- Add your photo at images/gail-profile.jpg to replace this placeholder -->
+        <div class="portrait-placeholder" id="photo-placeholder">
+          PROFILE IMAGE<br />
+          ABEGAIL ALBEA<br /><br />
+          UPLOAD PHOTO TO<br />
+          images/gail-profile.jpg
+        </div>
+      </div>
+    </header>
+
+    <section id="about" class="reveal">
+      <div class="section-label">01 / OPERATOR PROFILE</div>
+      <h2>Beyond the <span class="green">Automation</span></h2>
+      <p class="section-text">
+        I am an aspiring Automation Virtual Assistant transitioning from
+        administrative and operational work into workflow automation.
+        My experience as an Assistant Branch Manager at M Lhuillier helped
+        me develop skills in daily operations, customer service, financial
+        records, report preparation, documentation, and team coordination.
+      </p>
+      <p class="section-text">
+        I am learning to connect digital tools, organize information, and
+        streamline repetitive tasks using Zapier, Make.com, n8n, and
+        GoHighLevel. My goal is to support businesses with reliable,
+        well-organized workflows while continuing to develop my technical skills.
+      </p>
+    </section>
+
+    <section id="skills" class="reveal">
+      <div class="section-label">02 / TECHNOLOGY MATRIX</div>
+      <h2>Tools & <span class="green">Capabilities</span></h2>
+      <div class="cards">
+        <article class="card">
+          <h3>ZAPIER</h3>
+          <p>App integrations, triggers, actions, and multi-step workflow practice.</p>
+          <span class="tag">WORKFLOW AUTOMATION</span>
+        </article>
+        <article class="card">
+          <h3>MAKE.COM</h3>
+          <p>Visual scenarios, routers, conditional paths, and execution history.</p>
+          <span class="tag">VISUAL AUTOMATION</span>
+        </article>
+        <article class="card">
+          <h3>n8n</h3>
+          <p>Learning node-based workflows and connecting applications.</p>
+          <span class="tag">WORKFLOW BUILDER</span>
+        </article>
+        <article class="card">
+          <h3>GOHIGHLEVEL</h3>
+          <p>CRM and marketing automation platform knowledge.</p>
+          <span class="tag">CRM</span>
+        </article>
+        <article class="card">
+          <h3>ADMIN SUPPORT</h3>
+          <p>Record organization, data entry, documentation, reporting, and customer service.</p>
+          <span class="tag">OPERATIONS</span>
+        </article>
+        <article class="card">
+          <h3>INTEGRATIONS</h3>
+          <p>Practice with Google Forms, Google Sheets, Gmail, and Telegram notifications.</p>
+          <span class="tag">PRACTICE PROJECTS</span>
+        </article>
+      </div>
+    </section>
+
+    <section id="certificates" class="reveal">
+      <div class="section-label">03 / VERIFICATION DATABASE</div>
+      <h2>My <span class="green">Certificates</span></h2>
+      <p class="section-text">
+        Certificate details and verification links can be added here once
+        the original certificate files are uploaded.
+      </p>
+      <div class="cards">
+        <article class="card"><h3>Zapier</h3><p>Certificate details to be added.</p></article>
+        <article class="card"><h3>Make.com</h3><p>Certificate details to be added.</p></article>
+        <article class="card"><h3>n8n</h3><p>Certificate details to be added.</p></article>
+        <article class="card"><h3>GoHighLevel</h3><p>Certificate details to be added.</p></article>
+      </div>
+    </section>
+
+    <section id="projects" class="reveal">
+      <div class="section-label">04 / AUTOMATION TEST LAB</div>
+      <h2>Workflow <span class="green">Projects</span></h2>
+      <p class="section-text">
+        Practice projects demonstrating my developing automation skills.
+        These are learning demonstrations, not claims of paid client work.
+      </p>
+      <div class="cards">
+        <article class="card">
+          <h3>01 / FORM → SHEETS</h3>
+          <p>Connect a form submission to Google Sheets to organize incoming data.</p>
+          <span class="tag">GOOGLE FORMS</span><span class="tag">GOOGLE SHEETS</span>
+        </article>
+        <article class="card">
+          <h3>02 / TELEGRAM ALERTS</h3>
+          <p>Send an automated Telegram notification when a configured event occurs.</p>
+          <span class="tag">TELEGRAM</span><span class="tag">NOTIFICATIONS</span>
+        </article>
+        <article class="card">
+          <h3>03 / EMAIL FLOW</h3>
+          <p>Send a confirmation email or business notification after a form submission.</p>
+          <span class="tag">GMAIL</span><span class="tag">AUTOMATION</span>
+        </article>
+        <article class="card">
+          <h3>04 / CONDITIONAL ROUTER</h3>
+          <p>Explore routing data into different workflow paths based on conditions.</p>
+          <span class="tag">MAKE.COM</span><span class="tag">ROUTING</span>
+        </article>
+      </div>
+    </section>
+
+    <section id="experience" class="reveal">
+      <div class="section-label">05 / OPERATIONAL LOGS</div>
+      <h2>Professional <span class="green">Experience</span></h2>
+      <div class="timeline">
+        <article class="card">
+          <h3>Assistant Branch Manager</h3>
+          <p>M Lhuillier Pawnshop · Philippines</p>
+          <ul>
+            <li>Supported daily branch operations and compliance procedures.</li>
+            <li>Handled financial documentation and confidential records.</li>
+            <li>Prepared operational and financial reports.</li>
+            <li>Coordinated staff tasks and addressed customer concerns.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Contract Tracer</h3>
+          <p>DILG Philippines · March–November 2020</p>
+        </article>
+        <article class="card">
+          <h3>Statistical Researcher</h3>
+          <p>Philippine Statistics Authority · July–December 2019</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" class="reveal">
+      <div class="contact-box">
+        <div class="section-label">06 / CONNECTION REQUEST</div>
+        <h2>Let's Automate <span class="green">Something Great</span></h2>
+        <p class="section-text" style="margin-inline:auto">
+          Looking for organized administrative support and an enthusiastic
+          learner in workflow automation? Let's connect.
+        </p>
+        <!-- Replace the example email with your real email address -->
+        <div class="buttons" style="justify-content:center">
+          <a class="btn primary"
+             href="mailto:YOUR-EMAIL@example.com">SEND EMAIL</a>
+          <a class="btn" href="#home">BACK TO TOP</a>
+        </div>
+        <p class="section-text" style="margin:24px auto 0;font-size:12px">
+          Add your real LinkedIn URL, resume link, and certificate links here.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>GAIL.SYS // AUTOMATION VA PORTFOLIO</p>
+    <p>© <span id="year"></span> Abegail Albea · Built for a smarter digital future.</p>
+  </footer>
+
+  <script>
+    // Animated digital background
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+    const chars = "01アイウエオ{}[]<>/+-=";
+    let drops = [];
+    let width = 0;
+    let height = 0;
+    let fontSize = 14;
+
+    function setupMatrix() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = width + "px";
+      canvas.style.height = height + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const columns = Math.ceil(width / fontSize);
+      drops = Array.from({ length: columns }, () =>
+        Math.random() * (height / fontSize)
+      );
+    }
+
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(5, 8, 7, 0.09)";
+      ctx.fillRect(0, 0, width, height);
+      ctx.fillStyle = "#39ff88";
+      ctx.font = fontSize + "px monospace";
+
+      drops.forEach((y, i) => {
+        const char = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(char, i * fontSize, y * fontSize);
+        if (y * fontSize > height && Math.random() > 0.975) {
+          drops[i] = 0;
+        } else {
+          drops[i] += 0.45;
+        }
+      });
+      requestAnimationFrame(drawMatrix);
+    }
+
+    setupMatrix();
+    drawMatrix();
+    window.addEventListener("resize", setupMatrix);
+
+    // Reveal sections as they enter the viewport
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Automatically show the real photo when its file exists
+    const img = new Image();
+    img.src = "images/gail-profile.jpg";
+    img.onload = () => {
+      const placeholder = document.getElementById("photo-placeholder");
+      const portrait = document.createElement("img");
+      portrait.src = img.src;
+      portrait.alt = "Portrait of Abegail Albea";
+      portrait.className = "portrait";
+      placeholder.replaceWith(portrait);
+    };
+  </script>
+</body>
+</html>
