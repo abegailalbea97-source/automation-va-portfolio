@@ -15,27 +15,28 @@
   left: 0;
   width: 34px;
   height: 34px;
-  background: url("cursor-ready.png") center center / contain no-repeat;
+  background: url("cursor-ready.png") center / contain no-repeat;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 2147483647;
   transform: translate(-50%, -50%);
   display: none;
+  visibility: visible;
+  opacity: 1;
   filter: drop-shadow(0 0 10px rgba(57, 255, 136, 0.8));
   transition: transform 0.12s ease, filter 0.12s ease;
 }
-
 .logo-cursor.active {
   transform: translate(-50%, -50%) scale(1.18);
   filter: drop-shadow(0 0 16px rgba(57, 255, 136, 1));
 }
-
+ 
 @media (hover: hover) and (pointer: fine) {
-  html, body, a, button, .btn {
-    cursor: auto !important;
-  }
-
   .logo-cursor {
     display: block;
+  }
+
+  html, body {
+    cursor: auto !important;
   }
 }
    :root { 
