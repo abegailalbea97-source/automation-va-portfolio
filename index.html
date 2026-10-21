@@ -1140,10 +1140,59 @@ body { background-attachment:fixed; }
   #aiPresenter .robot-quick-nav button{font-size:8px}
 }
 @media(prefers-reduced-motion:reduce){.scene-block,.scene-block.reveal,.scene-block.reveal.visible{transform:none!important;opacity:1!important}}
+
+/* CINEMATIC V2: animated CONTENT planes, not the section viewport. */
+.scene-block,.scene-block.reveal,.scene-block.reveal.visible,.scene-block.scene-in,.scene-block.scene-out-left,.scene-block.scene-out-right{
+  transform:none!important;opacity:1!important;filter:none!important;transition:none!important;overflow:visible;
+}
+.scene-block{perspective:1100px;perspective-origin:50% 46%;}
+.scene-block > :not(.hero-grid-floor){
+  transform-origin:var(--pivot,50% 50%);
+  transform:perspective(1100px) translate3d(var(--fly-x,0px),var(--fly-y,0px),0) rotateY(var(--turn-y,0deg)) rotateX(var(--turn-x,0deg)) rotateZ(var(--turn-z,0deg)) scale(var(--zoom,1))!important;
+  opacity:var(--plane-opacity,1)!important;
+  filter:blur(var(--plane-blur,0px));
+  transition:transform 90ms linear,opacity 90ms linear,filter 90ms linear;
+  backface-visibility:hidden;
+}
+/* A new full-screen cinematic background, crossfaded independently from body. */
+#sceneBackdrops{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;isolation:isolate;}
+#sceneBackdrops .scene-atmosphere{position:absolute;inset:-12%;opacity:0;transition:opacity 850ms ease;transform:scale(1.06);}
+#sceneBackdrops .scene-atmosphere.active{opacity:1;animation:sceneBreath 9s ease-in-out infinite alternate;}
+#sceneBackdrops .scene-atmosphere[data-bg="home"]{background:radial-gradient(circle at 78% 30%,#39ff8836,transparent 45%),radial-gradient(circle at 15% 78%,#ffb65b19,transparent 40%),#03100b}
+#sceneBackdrops .scene-atmosphere[data-bg="about"]{background:radial-gradient(circle at 25% 45%,#29e1fa40,transparent 46%),radial-gradient(circle at 90% 80%,#71a8ff18,transparent 45%),#030b16}
+#sceneBackdrops .scene-atmosphere[data-bg="skills"]{background:radial-gradient(circle at 80% 25%,#cf9dff3b,transparent 48%),radial-gradient(circle at 14% 85%,#50baff25,transparent 40%),#09071b}
+#sceneBackdrops .scene-atmosphere[data-bg="certificates"]{background:radial-gradient(circle at 50% 18%,#f4b35f42,transparent 48%),radial-gradient(circle at 95% 80%,#ed8b2b20,transparent 40%),#170c05}
+#sceneBackdrops .scene-atmosphere[data-bg="projects"]{background:radial-gradient(circle at 10% 35%,#ff52633c,transparent 47%),radial-gradient(circle at 78% 85%,#ed53ce27,transparent 42%),#170613}
+#sceneBackdrops .scene-atmosphere[data-bg="experience"]{background:radial-gradient(circle at 83% 42%,#488bff48,transparent 50%),radial-gradient(circle at 15% 80%,#36d8e22b,transparent 43%),#050e1d}
+#sceneBackdrops .scene-atmosphere[data-bg="contact"]{background:radial-gradient(circle at 50% 28%,#46ff8a48,transparent 49%),radial-gradient(circle at 85% 82%,#35f2df30,transparent 44%),#03170e}
+@keyframes sceneBreath{from{transform:scale(1.06) translateX(-1%)}to{transform:scale(1.13) translateX(1%)}}
+body{background:#050807!important;}
+body::before,body::after{z-index:0!important;opacity:.2!important;}
+#matrix{z-index:0!important;opacity:.12;}
+.camera-orbit{z-index:0!important;}
+body > nav,body > main,body > footer{position:relative;z-index:1;}
+#sceneProgress{position:fixed;top:76px;right:15px;z-index:50;pointer-events:none;color:#b8ffcd;background:#04140fe8;border:1px solid #39ff8880;border-radius:6px;padding:8px 11px;letter-spacing:1.4px;font-size:10px;box-shadow:0 0 20px #39ff8845;max-width:40vw;text-align:right;}
+#sceneProgress strong{display:block;color:#75ffc0;font-size:11px;margin-top:3px;}
+/* Keep photo visible even when scene animates. */
+.portrait-stage{opacity:1!important;}
+@media(max-width:760px){
+  /* Preserve noticeable but readable transformations on phones. */
+  .scene-block > :not(.hero-grid-floor){transform:perspective(950px) translate3d(var(--fly-x,0px),var(--fly-y,0px),0) rotateY(var(--turn-y,0deg)) rotateX(var(--turn-x,0deg)) rotateZ(var(--turn-z,0deg)) scale(var(--zoom,1))!important;opacity:var(--plane-opacity,1)!important;}
+  #sceneProgress{top:auto;bottom:12px;left:12px;right:auto;max-width:130px;font-size:8px;padding:6px 8px;}
+  .scene-block{perspective:1200px;}
+}
+@media(prefers-reduced-motion:reduce){
+  .scene-block > :not(.hero-grid-floor){transform:none!important;opacity:1!important;filter:none!important;transition:none!important;}
+  #sceneBackdrops .scene-atmosphere.active{animation:none}
+}
+
 </style>
 </head>
 
 <body>
+  <div id="sceneBackdrops" aria-hidden="true"><div class="scene-atmosphere active" data-bg="home"></div><div class="scene-atmosphere" data-bg="about"></div><div class="scene-atmosphere" data-bg="skills"></div><div class="scene-atmosphere" data-bg="certificates"></div><div class="scene-atmosphere" data-bg="projects"></div><div class="scene-atmosphere" data-bg="experience"></div><div class="scene-atmosphere" data-bg="contact"></div></div>
+  <div id="sceneProgress" aria-hidden="true">3D PRESENTATION<strong>SCENE 01 / 07 · WELCOME</strong></div>
+
   <div class="camera-orbit" aria-hidden="true"></div>
   <canvas id="matrix" aria-hidden="true"></canvas>
 
@@ -1556,74 +1605,64 @@ body { background-attachment:fixed; }
 </script>
 
   <script>
-    // Cinematic scroll camera: continuous angle and depth based on viewport position.
-    (() => {
-      const scenes = [...document.querySelectorAll('.scene-block[data-scene]')];
-      const sceneNames = ['home','about','skills','certificates','projects','experience','contact'];
-      const reduce = matchMedia('(prefers-reduced-motion: reduce)');
-      let scheduled = false;
-      const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
-      function render() {
-        scheduled = false;
-        const vh = window.innerHeight || 800;
-        let closest = null;
-        let minDistance = Infinity;
-        for (const scene of scenes) {
-          const rect = scene.getBoundingClientRect();
-          // Viewport midpoint relative to the section center. Negative = below center.
-          const displacement = (rect.top + rect.height / 2 - vh / 2) / Math.max(vh, 1);
-          const distance = Math.abs(displacement);
-          if (distance < minDistance) { minDistance = distance; closest = scene; }
-          if (reduce.matches) {
-            scene.style.removeProperty('--cam-y');
-            scene.style.removeProperty('--cam-x');
-            scene.style.removeProperty('--cam-roll');
-            scene.style.removeProperty('--cam-shift');
-            scene.style.removeProperty('--cam-z');
-            scene.style.removeProperty('--cam-opacity');
-            continue;
-          }
-          // Distinct PowerPoint-like camera moves: orbit, tilt, flip, dolly and arc.
-          const presets = {
-            home:         {yaw:  12, pitch: -5, roll:  0, depth:.045},
-            about:        {yaw: -22, pitch:  4, roll: -2, depth:.065},
-            skills:       {yaw:  23, pitch: -6, roll:  2, depth:.080},
-            certificates: {yaw: -12, pitch: 14, roll: -2, depth:.075},
-            projects:     {yaw:  26, pitch: -2, roll:  4, depth:.090},
-            experience:   {yaw: -15, pitch:-12, roll: -3, depth:.060},
-            contact:      {yaw:   0, pitch: 15, roll:  0, depth:.085}
-          };
-          const p = presets[scene.dataset.scene] || presets.home;
-          const shift = clamp(displacement * 1.15, -1, 1);
-          const rx = p.pitch * shift;
-          const ry = p.yaw * shift;
-          const rz = p.roll * shift;
-          const scale = 1 - p.depth * Math.abs(shift);
-          scene.style.setProperty('--cam-y', ry.toFixed(2) + 'deg');
-          scene.style.setProperty('--cam-x', rx.toFixed(2) + 'deg');
-          scene.style.setProperty('--cam-roll', rz.toFixed(2) + 'deg');
-          scene.style.setProperty('--cam-shift', (shift * 28).toFixed(1) + 'px');
-          scene.style.setProperty('--cam-z', scale.toFixed(3));
-          scene.style.setProperty('--cam-opacity', clamp(1.12 - distance * .22,.75,1).toFixed(2));
-        }
-        if (closest) {
-          const next = `scene-${closest.dataset.scene}`;
-          if (!document.body.classList.contains(next)) {
-            document.body.classList.remove(...sceneNames.map(x=>'scene-'+x));
-            document.body.classList.add(next);
-          }
-          document.documentElement.style.setProperty('--camera-hue',
-            ({home:0,about:34,skills:85,certificates:150,projects:225,experience:290,contact:340})[closest.dataset.scene]+'deg');
-        }
+  // V2 scroll-driven slide presenter with distinctive rotations by topic.
+  (() => {
+    const scenes=[...document.querySelectorAll('.scene-block[data-scene]')];
+    const panes=[...document.querySelectorAll('.scene-atmosphere')];
+    const progress=document.getElementById('sceneProgress');
+    const names={home:'WELCOME',about:'PROFILE',skills:'SKILLS',certificates:'CERTIFICATES',projects:'PROJECTS',experience:'EXPERIENCE',contact:'CONTACT'};
+    const motion={
+      home:{yaw:12,pitch:-8,roll:0,dx:50,dy:50,pivot:'50% 50%'},
+      about:{yaw:-54,pitch:3,roll:-4,dx:-160,dy:65,pivot:'0% 50%'},
+      skills:{yaw:54,pitch:-4,roll:4,dx:160,dy:55,pivot:'100% 50%'},
+      certificates:{yaw:-9,pitch:44,roll:-3,dx:0,dy:150,pivot:'50% 0%'},
+      projects:{yaw:62,pitch:-8,roll:12,dx:160,dy:100,pivot:'100% 50%'},
+      experience:{yaw:-36,pitch:-24,roll:-7,dx:-125,dy:90,pivot:'0% 50%'},
+      contact:{yaw:0,pitch:38,roll:0,dx:0,dy:120,pivot:'50% 100%'}
+    };
+    let raf=0,previous='';
+    const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+    function draw(){
+      raf=0;
+      const vh=window.innerHeight||800;
+      let focus=scenes[0], best=-1;
+      scenes.forEach(scene=>{
+        const rect=scene.getBoundingClientRect();
+        const visible=Math.max(0,Math.min(rect.bottom,vh*.82)-Math.max(rect.top,vh*.13));
+        const weighted=visible/Math.min(Math.max(rect.height,1),vh);
+        if(weighted>best){best=weighted;focus=scene;}
+        const p=motion[scene.dataset.scene];
+        // Three phases: enter (strong pose), focus (front-facing), exit (opposite pose).
+        const enter=clamp((rect.top-vh*.12)/(vh*.75),0,1);
+        const leave=clamp((vh*.19-rect.bottom)/(vh*.52),0,1);
+        const t=enter-leave;
+        const ease=Math.sign(t)*Math.pow(Math.abs(t),.8);
+        const mobile=window.innerWidth<761 ? .52 : 1;
+        const plane=(name,val)=>scene.style.setProperty(name,val);
+        plane('--turn-y',(p.yaw*ease*mobile).toFixed(2)+'deg');
+        plane('--turn-x',(p.pitch*ease*mobile).toFixed(2)+'deg');
+        plane('--turn-z',(p.roll*ease*mobile).toFixed(2)+'deg');
+        plane('--fly-x',(p.dx*ease*mobile).toFixed(1)+'px');
+        plane('--fly-y',(p.dy*ease*mobile).toFixed(1)+'px');
+        plane('--zoom',(1-.19*Math.abs(t)*mobile).toFixed(3));
+        plane('--plane-opacity',(1-.57*Math.abs(t)).toFixed(3));
+        plane('--plane-blur',(.8*Math.abs(t)).toFixed(2)+'px');
+        plane('--pivot',p.pivot);
+      });
+      if(focus && focus.dataset.scene!==previous){
+        previous=focus.dataset.scene;
+        document.body.classList.remove(...Object.keys(names).map(x=>'scene-'+x));
+        document.body.classList.add('scene-'+previous);
+        panes.forEach(p=>p.classList.toggle('active',p.dataset.bg===previous));
+        if(progress){progress.innerHTML='3D PRESENTATION<strong>SCENE '+String(Object.keys(names).indexOf(previous)+1).padStart(2,'0')+' / 07 · '+names[previous]+'</strong>';}
       }
-      function requestRender() {
-        if (!scheduled) { scheduled = true; requestAnimationFrame(render); }
-      }
-      window.addEventListener('scroll', requestRender, {passive:true});
-      window.addEventListener('resize', requestRender, {passive:true});
-      reduce.addEventListener?.('change', requestRender);
-      render();
-    })();
+    }
+    function schedule(){if(!raf)raf=requestAnimationFrame(draw);}
+    window.addEventListener('scroll',schedule,{passive:true});
+    window.addEventListener('resize',schedule,{passive:true});
+    window.addEventListener('load',schedule,{once:true});
+    draw();
+  })();
   </script>
 
 
