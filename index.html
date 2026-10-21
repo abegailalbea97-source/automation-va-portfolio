@@ -1589,6 +1589,14 @@ body.demo-open #matrix {visibility:hidden;}
 /* Do not fade or transform the open demo dialog. */
 .demo-overlay:not([hidden]) .demo-window {animation:none !important;transform:none !important;opacity:1 !important;}
 
+
+/* Instant demo: minimal paint cost, no entrance effects or delayed opacity */
+.demo-overlay:not([hidden]) { display:grid !important; visibility:visible !important; opacity:1 !important; transform:none !important; transition:none !important; animation:none !important; background:#010705 !important; }
+.demo-overlay .demo-window,.demo-overlay .demo-window *{animation:none !important;transition:none !important;}
+body.demo-open > main,body.demo-open > nav,body.demo-open > footer,
+body.demo-open > #sceneBackdrops,body.demo-open > #matrix,
+body.demo-open > .camera-orbit,body.demo-open > #aiPresenter { visibility:hidden !important; }
+
 </style>
 </head>
 
@@ -1943,7 +1951,7 @@ body.demo-open #matrix {visibility:hidden;}
     function drawMatrix(now = 0) {
       // Keep the background animation lightweight (about 18fps rather than 60fps).
       requestAnimationFrame(drawMatrix);
-      if (document.hidden || now - lastMatrixFrame < 55) return;
+      if (document.hidden || document.body.classList.contains("demo-open") || now - lastMatrixFrame < 95) return;
       lastMatrixFrame = now;
       ctx.fillStyle = "rgba(5, 8, 7, 0.09)";
       ctx.fillRect(0, 0, width, height);
@@ -2280,16 +2288,31 @@ body.demo-open #matrix {visibility:hidden;}
  const clean=(value)=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
  const headings={1:'Form → Sheet Preview',2:'Telegram Alert Simulation',3:'Email Confirmation Preview',4:'Conditional Router Simulation'};
  const field=(label,name,type='text',value='')=>`<label class="demo-field">${label}<input name="${name}" type="${type}" value="${clean(value)}" required maxlength="140"></label>`;
+ const templates={
+  1:`${field('Customer name','name','text','Alex Rivera')}${field('Service requested','service','text','Appointment scheduling')}<button class="btn primary" type="submit">ADD SAMPLE ROW</button>`,
+  2:`${field('Notification subject','subject','text','New lead received')}${field('Team or channel','channel','text','Sales Team')}<button class="btn primary" type="submit">SIMULATE ALERT</button>`,
+  3:`${field('Recipient name','recipient','text','Jamie Cruz')}${field('Request topic','topic','text','Pricing inquiry')}<button class="btn primary" type="submit">PREVIEW EMAIL</button>`,
+  4:`<label class="demo-field">Request type<select name="kind"><option value="quote">Pricing / Quote</option><option value="support">Support request</option><option value="general">General inquiry</option></select></label><button class="btn primary" type="submit">RUN ROUTER</button>`
+ };
+ const panels={};
+ for(const id of [1,2,3,4]){
+   const form=document.createElement('form');
+   form.className='demo-form'; form.dataset.id=id; form.id='demoForm'+id;
+   form.innerHTML=templates[id];form.hidden=true;
+   form.style.display='none';
+   controls.appendChild(form);panels[id]=form;
+ }
+ let activeId=null;
  document.querySelectorAll('[data-demo]').forEach(button=>button.addEventListener('click',()=>{
-   lastFocus=button; const id=Number(button.dataset.demo); title.textContent=headings[id];overlay.hidden=false;document.body.classList.add('demo-open');
-   result.textContent='Ready to simulate.';
-   let content='';
-   if(id===1) content=`${field('Customer name','name','text','Alex Rivera')}${field('Service requested','service','text','Appointment scheduling')}<button class="btn primary" type="submit">ADD SAMPLE ROW</button>`;
-   if(id===2) content=`${field('Notification subject','subject','text','New lead received')}${field('Team or channel','channel','text','Sales Team')}<button class="btn primary" type="submit">SIMULATE ALERT</button>`;
-   if(id===3) content=`${field('Recipient name','recipient','text','Jamie Cruz')}${field('Request topic','topic','text','Pricing inquiry')}<button class="btn primary" type="submit">PREVIEW EMAIL</button>`;
-   if(id===4) content=`<label class="demo-field">Request type<select name="kind"><option value="quote">Pricing / Quote</option><option value="support">Support request</option><option value="general">General inquiry</option></select></label><button class="btn primary" type="submit">RUN ROUTER</button>`;
-   controls.innerHTML=`<form id="activeDemo" class="demo-form" data-id="${id}">${content}</form>`;
-   controls.querySelector('input,select').focus();
+   lastFocus=button;
+   const id=Number(button.dataset.demo);
+   // No asynchronous loading, timeout, iframe, or fetch. Prebuilt form appears on this click.
+   if(activeId!==null){panels[activeId].hidden=true;panels[activeId].style.display='none';}
+   panels[id].hidden=false;panels[id].style.display='grid'; activeId=id;
+   title.textContent=headings[id];result.textContent='Ready to simulate.';
+   document.body.classList.add('demo-open');overlay.hidden=false;
+   // Focus after paint so it cannot delay opening on lower-powered devices.
+   requestAnimationFrame(()=>panels[id].querySelector('input,select')?.focus({preventScroll:true}));
  }));
  document.getElementById('demoClose').addEventListener('click',close);
  overlay.addEventListener('click',e=>{if(e.target===overlay)close()});
