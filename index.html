@@ -1468,6 +1468,116 @@ body::before, body::after { transition: none !important; }
   }
 }
 
+
+
+/* === Experience enhancement + subtle living hologram nod effect === */
+#experience .card ul { margin: 12px 0 0; }
+#experience .card li + li { margin-top: 8px; }
+#experience .card strong { color: var(--lime); }
+
+body.profile-appear .hologram-wrap {
+  transform-origin: 50% 78%;
+  animation:
+    holoReveal 1.2s cubic-bezier(.18,.84,.22,1) forwards,
+    portraitNodWrap 5.2s ease-in-out 1.4s infinite;
+}
+body.profile-appear .hologram-photo {
+  transform-origin: 50% 78%;
+  animation:
+    holoPhotoResolve 1.35s ease-out forwards,
+    portraitNodPhoto 5.2s ease-in-out 1.4s infinite;
+}
+body.profile-appear .holo-beam {
+  animation:
+    beamPulse 3.2s ease-in-out infinite alternate,
+    beamIgnite 1s ease-out 1,
+    portraitBeamPulse 5.2s ease-in-out 1.4s infinite;
+}
+@keyframes portraitNodWrap {
+  0%, 100% { transform: translateZ(18px) rotateX(0deg) translateY(0); }
+  12% { transform: translateZ(18px) rotateX(1.2deg) translateY(0); }
+  26% { transform: translateZ(18px) rotateX(4.4deg) translateY(2px); }
+  38% { transform: translateZ(18px) rotateX(1.5deg) translateY(1px); }
+  50% { transform: translateZ(18px) rotateX(0deg) translateY(0); }
+  68% { transform: translateZ(18px) rotateX(1deg) translateY(1px); }
+  82% { transform: translateZ(18px) rotateX(2.6deg) translateY(1px); }
+}
+@keyframes portraitNodPhoto {
+  0%, 100% { transform: scale(1) translateY(0); }
+  26% { transform: scale(1.01) translateY(2px); }
+  38% { transform: scale(1.005) translateY(1px); }
+  82% { transform: scale(1.006) translateY(1px); }
+}
+@keyframes portraitBeamPulse {
+  0%, 100% { opacity: .62; }
+  26% { opacity: .9; }
+  38% { opacity: .75; }
+  82% { opacity: .82; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.profile-appear .hologram-wrap,
+  body.profile-appear .hologram-photo,
+  body.profile-appear .holo-beam {
+    animation: none !important;
+  }
+}
+
+
+/* Video carries the portrait motion, so don't apply a second nod transform. */
+body.profile-appear .hologram-wrap { animation: holoReveal 1.2s cubic-bezier(.18,.84,.22,1) forwards !important; }
+body.profile-appear .hologram-photo { animation: holoPhotoResolve 1.35s ease-out forwards !important; }
+.hologram-photo { object-fit: cover; }
+
+/* Project showcase and clearly marked example feedback */
+.showcase-grid,.feedback-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:30px}
+.showcase-card,.quote-card {min-width:0;padding:25px}
+.showcase-code,.quote-label {display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:#b5ff45;font-size:10px;letter-spacing:1px;margin-bottom:14px}
+.showcase-type {color:#d1f7de;border:1px solid #39ff8877;border-radius:3px;padding:3px 6px}
+.showcase-card h3 {line-height:1.3;margin-top:0}
+.showcase-card p {margin:10px 0}
+.showcase-card strong {color:#d9ffe6}
+.showcase-skill {margin-top:16px}
+.proof-strip {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:22px}
+.proof-strip>div {border:1px solid #39ff8844;background:#07180fdd;padding:19px;display:flex;flex-direction:column;gap:9px}
+.proof-strip strong {font-size:13px;color:#b5ff45}
+.proof-strip span {color:#9aafa2;font-size:12px;line-height:1.65}
+.quote-card {background:linear-gradient(145deg,rgba(8,37,24,.9),rgba(2,10,8,.94))}
+.quote-label {color:#ffd479}
+.quote-text {color:#eaffed!important;font-size:15px!important;line-height:1.75!important;margin-bottom:18px}
+.quote-credit,.feedback-note {font-size:12px;color:#9aafa2;line-height:1.65}
+.feedback-note {margin-top:20px}
+@media(max-width:760px){.showcase-grid,.feedback-grid,.proof-strip {grid-template-columns:1fr}}
+
+
+.demo-launch {display:inline-flex;margin-top:19px;cursor:pointer;background:rgba(57,255,136,.08);border-radius:4px}
+.demo-overlay[hidden]{display:none!important}
+.demo-overlay{position:fixed;inset:0;z-index:3000000000;background:rgba(0,5,4,.82);backdrop-filter:blur(12px);display:grid;place-items:center;padding:16px}
+.demo-window{width:min(620px,100%);max-height:min(90vh,850px);overflow:auto;background:#071710;border:1px solid #39ff88;box-shadow:0 24px 70px #000c,0 0 38px #39ff882a;padding:24px;color:#effff4}
+.demo-window-top{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11px;letter-spacing:1.2px;color:#b5ff45}
+.demo-window-top button{border:1px solid #39ff8877;background:#10261a;color:#b5ff45;cursor:pointer;padding:8px;font:inherit}
+.demo-window h2{margin:22px 0 12px}
+.demo-disclaimer{font-size:12px;color:#abbdb0;line-height:1.7;border-bottom:1px solid #39ff8833;padding-bottom:15px}
+.demo-form{display:grid;gap:13px;margin:20px 0}
+.demo-field{display:flex;flex-direction:column;gap:7px;color:#b5ff45;font-size:12px}
+.demo-field input,.demo-field select{padding:12px;background:#0d2419;color:#effff4;border:1px solid #39ff8877;border-radius:4px;font:inherit;max-width:100%}
+.demo-form button{cursor:pointer;justify-self:start}
+.demo-result{padding:18px;background:#0a2518;border:1px solid #39ff8855;color:#eaffef;line-height:1.6;font-size:13px}
+.demo-msg{margin-top:11px;padding:15px;border:1px solid #39ff8844;background:#03120c;overflow-wrap:anywhere}
+.demo-msg small{color:#ffdb90}
+.demo-scroll{overflow-x:auto}
+.demo-result table{border-collapse:collapse;width:100%;margin-top:12px;font-size:12px}
+.demo-result th,.demo-result td{border:1px solid #39ff8844;padding:8px;text-align:left}
+body.demo-open{overflow:hidden}
+
+
+/* Header action buttons */
+nav .nav-links { align-items:center; }
+nav .header-cta { display:inline-flex;align-items:center;justify-content:center;padding:10px 13px;border:1px solid #39ff88;border-radius:6px;font-size:11px;font-weight:bold;letter-spacing:.04em;white-space:nowrap;transition:background .2s,box-shadow .2s,transform .2s; }
+nav .header-call { background:rgba(57,255,136,.08);color:#c4ffdc; }
+nav .header-book { background:#39ff88;color:#041008;box-shadow:0 0 15px rgba(57,255,136,.24); }
+nav .header-cta:hover,nav .header-cta:focus-visible { transform:translateY(-2px);box-shadow:0 0 21px rgba(57,255,136,.38); }
+nav .header-book:hover,nav .header-book:focus-visible { color:#041008; }
+@media(max-width:760px) { nav .nav-links { gap:10px; } nav .header-cta { padding:8px 9px;font-size:10px; } }
 </style>
 </head>
 
@@ -1485,8 +1595,11 @@ body::before, body::after { transition: none !important; }
       <a href="#skills">SYSTEMS</a>
       <a href="#certificates">CERTIFICATES</a>
       <a href="#projects">PROJECTS</a>
+      <a href="#feedback">FEEDBACK</a>
       <a href="#experience">LOGS</a>
       <a href="#contact">CONTACT</a>
+      <a class="header-cta header-call" href="tel:+639150210143" aria-label="Call Gail now">☎ CALL NOW</a>
+      <a class="header-cta header-book" href="mailto:abegailalbea97@gmail.com?subject=Booking%20Request%20-%20Portfolio%20Consultation" aria-label="Email Gail to request a booking">BOOK NOW</a>
     </div>
   </nav>
 
@@ -1519,11 +1632,10 @@ body::before, body::after { transition: none !important; }
         <span class="holo-orbit" aria-hidden="true"></span>
         <span class="holo-orbit" aria-hidden="true"></span>
         <div class="hologram-wrap" aria-hidden="false">
-          <img
-            class="hologram-photo"
-            src="profile.jpg.png"
-            alt="Abegail Gail Albea"
-          />
+          <video class="hologram-photo" autoplay muted loop playsinline preload="metadata" poster="profile.jpg.png" aria-label="Animated holographic portrait of Abegail Gail Albea">
+            <source src="gail-hologram-nod.mp4" type="video/mp4" />
+            Your browser does not support video playback.
+          </video>
           <span class="holo-glitch" aria-hidden="true"></span>
           <span class="holo-beam" aria-hidden="true"></span>
         </div>
@@ -1653,34 +1765,76 @@ body::before, body::after { transition: none !important; }
     </section>
 
     <section id="projects" class="reveal scene-block angle-right" data-scene="projects">
-      <div class="section-label">04 / AUTOMATION TEST LAB</div>
-      <h2>Workflow <span class="green">Projects</span></h2>
+      <div class="section-label">04 / PROJECT SHOWCASE</div>
+      <h2>My Work & <span class="green">Achievements</span></h2>
       <p class="section-text">
-        Practice projects demonstrating my developing automation skills.
-        These are learning demonstrations, not claims of paid client work.
+        A collection of workflow practice concepts and transferable skills from operations,
+        research, and administrative work. Demonstrations are clearly labeled and are not
+        presented as paid client projects.
       </p>
-      <div class="cards">
-        <article class="card">
-          <h3>01 / FORM → SHEETS</h3>
-          <p>Connect a form submission to Google Sheets to organize incoming data.</p>
-          <span class="tag">GOOGLE FORMS</span><span class="tag">GOOGLE SHEETS</span>
+      <div class="showcase-grid">
+        <article class="card showcase-card">
+          <div class="showcase-code">PROJECT 01 <span class="showcase-type">PRACTICE DEMO</span></div>
+          <h3>Form Submission & Data Organization</h3>
+          <p><strong>Goal:</strong> Capture form responses and organize them into a structured spreadsheet.</p>
+          <p><strong>Workflow concept:</strong> Google Forms → Google Sheets, with fields prepared for review and tracking.</p>
+          <div class="showcase-skill"><span class="tag">GOOGLE FORMS</span><span class="tag">GOOGLE SHEETS</span><span class="tag">DATA ENTRY</span></div>
+          <button class="btn demo-launch" type="button" data-demo="1">TRY FORM DEMO ↗</button>
         </article>
-        <article class="card">
-          <h3>02 / TELEGRAM ALERTS</h3>
-          <p>Send an automated Telegram notification when a configured event occurs.</p>
-          <span class="tag">TELEGRAM</span><span class="tag">NOTIFICATIONS</span>
+        <article class="card showcase-card">
+          <div class="showcase-code">PROJECT 02 <span class="showcase-type">PRACTICE DEMO</span></div>
+          <h3>Telegram Notification Workflow</h3>
+          <p><strong>Goal:</strong> Explore how teams can receive timely updates after a workflow event.</p>
+          <p><strong>Workflow concept:</strong> Form submission → trigger → Telegram alert message.</p>
+          <div class="showcase-skill"><span class="tag">TELEGRAM</span><span class="tag">AUTOMATION</span><span class="tag">NOTIFICATIONS</span></div>
+          <button class="btn demo-launch" type="button" data-demo="2">TRY TELEGRAM DEMO ↗</button>
         </article>
-        <article class="card">
-          <h3>03 / EMAIL FLOW</h3>
-          <p>Send a confirmation email or business notification after a form submission.</p>
-          <span class="tag">GMAIL</span><span class="tag">AUTOMATION</span>
+        <article class="card showcase-card">
+          <div class="showcase-code">PROJECT 03 <span class="showcase-type">PRACTICE DEMO</span></div>
+          <h3>Email Follow-Up & Confirmation</h3>
+          <p><strong>Goal:</strong> Reduce repetitive manual replies with a consistent confirmation process.</p>
+          <p><strong>Workflow concept:</strong> New form response → organized details → confirmation email.</p>
+          <div class="showcase-skill"><span class="tag">GMAIL</span><span class="tag">WORKFLOW DESIGN</span></div>
+          <button class="btn demo-launch" type="button" data-demo="3">TRY EMAIL DEMO ↗</button>
         </article>
-        <article class="card">
-          <h3>04 / CONDITIONAL ROUTER</h3>
-          <p>Explore routing data into different workflow paths based on conditions.</p>
-          <span class="tag">MAKE.COM</span><span class="tag">ROUTING</span>
+        <article class="card showcase-card">
+          <div class="showcase-code">PROJECT 04 <span class="showcase-type">PRACTICE DEMO</span></div>
+          <h3>Conditional Workflow Routing</h3>
+          <p><strong>Goal:</strong> Show how different requests can follow different processing paths.</p>
+          <p><strong>Workflow concept:</strong> Incoming request → condition check → appropriate next step.</p>
+          <div class="showcase-skill"><span class="tag">MAKE.COM</span><span class="tag">LOGIC</span><span class="tag">ROUTERS</span></div>
+          <button class="btn demo-launch" type="button" data-demo="4">TRY ROUTER DEMO ↗</button>
         </article>
       </div>
+      <div class="proof-strip">
+        <div><strong>Operational Support</strong><span>Documentation, records, financial reporting, and team coordination</span></div>
+        <div><strong>Research & Data Skills</strong><span>Survey support, structured records, data validation, and detail-focused work</span></div>
+        <div><strong>Automation Learning</strong><span>Zapier, Make.com, n8n, HighLevel, Google tools, and Telegram</span></div>
+      </div>
+    </section>
+
+    <section id="feedback" class="reveal" aria-label="Client testimonials samples">
+      <div class="section-label">05 / CLIENT TESTIMONIALS</div>
+      <h2>Client <span class="green">Testimonials</span></h2>
+      <p class="section-text">Sample testimonials with example names and quotes. Replace with approved client feedback when available.</p>
+      <div class="feedback-grid">
+        <article class="card quote-card">
+          <div class="quote-label">CLIENT FEEDBACK · SAMPLE</div>
+          <p class="quote-text">“Gail explained the workflow in a clear and organized way, making it easier to understand the next steps.”</p>
+          <p class="quote-credit">Maria Santos</p>
+        </article>
+        <article class="card quote-card">
+          <div class="quote-label">CLIENT FEEDBACK · SAMPLE</div>
+          <p class="quote-text">“Her attention to detail and structured approach made the project plan easy to follow.”</p>
+          <p class="quote-credit">Daniel Reyes</p>
+        </article>
+        <article class="card quote-card">
+          <div class="quote-label">CLIENT FEEDBACK · SAMPLE</div>
+          <p class="quote-text">“The proposed process showed how simple automation could support more consistent communication.”</p>
+          <p class="quote-credit">Sofia Cruz</p>
+        </article>
+      </div>
+      <p class="feedback-note"></p>
     </section>
 
     <section id="experience" class="reveal scene-block angle-left" data-scene="experience">
@@ -1700,10 +1854,24 @@ body::before, body::after { transition: none !important; }
         <article class="card">
           <h3>Contract Tracer</h3>
           <p>DILG Philippines · March–November 2020</p>
+          <ul>
+            <li>Conducted contact tracing interviews and gathered essential case and contact details.</li>
+            <li>Maintained organized monitoring records and helped validate information for follow-up actions.</li>
+            <li>Handled sensitive health-related data with confidentiality, accuracy, and urgency.</li>
+            <li>Supported coordination and communication with individuals and relevant teams during time-sensitive cases.</li>
+            <li><strong>Key skills developed:</strong> communication, documentation, data validation, confidentiality, record management, and attention to detail.</li>
+          </ul>
         </article>
         <article class="card">
           <h3>Statistical Researcher</h3>
           <p>Philippine Statistics Authority · July–December 2019</p>
+          <ul>
+            <li>Assisted in data gathering, field validation, and completion of research and survey documents.</li>
+            <li>Collected, reviewed, and encoded statistical information while helping ensure accuracy and completeness.</li>
+            <li>Supported the organization of records and preparation of structured data for reporting and analysis.</li>
+            <li>Worked with forms, numerical information, and documented responses with a high level of detail.</li>
+            <li><strong>Key skills developed:</strong> research support, data entry, analytical thinking, data organization, validation, and structured reporting.</li>
+          </ul>
         </article>
       </div>
     </section>
@@ -1725,9 +1893,7 @@ body::before, body::after { transition: none !important; }
 </a>
           <a class="btn" href="#home">BACK TO TOP</a>
         </div>
-        <p class="section-text" style="margin:24px auto 0;font-size:12px">
-          Add your real LinkedIn URL, resume link, and certificate links here.
-        </p>
+
       </div>
     </section>
   </main>
@@ -1958,8 +2124,8 @@ body::before, body::after { transition: none !important; }
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
         document.body.classList.add('profile-appear');
       };
-      if (photo.complete && photo.naturalWidth > 0) play();
-      else photo.addEventListener('load', play, { once: true });
+      if (photo.readyState >= 2) play();
+      else photo.addEventListener('loadeddata', play, { once: true });
       photo.addEventListener('error',()=>{stage.style.opacity='1';stage.style.filter='none';});
     })();
   </script>
@@ -2057,7 +2223,7 @@ body::before, body::after { transition: none !important; }
 
 <script>
 (() => {
-  const selectors = ['.cards .card', '.timeline .card', '.certificate-card', '.project-card', '.contact-box'];
+  const selectors = ['.cards .card', '.timeline .card', '.certificate-card', '.project-card', '.contact-box', '.showcase-card', '.quote-card'];
   const items = Array.from(document.querySelectorAll(selectors.join(',')));
   items.forEach((el, index) => {
     el.classList.add('ufo-drop');
@@ -2082,5 +2248,47 @@ body::before, body::after { transition: none !important; }
 })();
 </script>
 
+
+<div id="demoOverlay" class="demo-overlay" hidden>
+  <div class="demo-window" role="dialog" aria-modal="true" aria-labelledby="demoTitle">
+    <div class="demo-window-top"><span>GAIL.SYS / SIMULATION LAB</span><button id="demoClose" type="button" aria-label="Close demonstration">✕ CLOSE</button></div>
+    <h2 id="demoTitle">Workflow demonstration</h2>
+    <p class="demo-disclaimer">Interactive simulation using fictional data. This demo does not connect to Google, Telegram, Gmail, or Make.com and does not send messages.</p>
+    <div id="demoControls"></div>
+    <div id="demoResult" class="demo-result" aria-live="polite">Ready to simulate.</div>
+  </div>
+</div>
+<script>
+(() => {
+ const overlay=document.getElementById('demoOverlay'),controls=document.getElementById('demoControls'),result=document.getElementById('demoResult'),title=document.getElementById('demoTitle');
+ let lastFocus=null,formRows=[];
+ const clean=(value)=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+ const headings={1:'Form → Sheet Preview',2:'Telegram Alert Simulation',3:'Email Confirmation Preview',4:'Conditional Router Simulation'};
+ const field=(label,name,type='text',value='')=>`<label class="demo-field">${label}<input name="${name}" type="${type}" value="${clean(value)}" required maxlength="140"></label>`;
+ document.querySelectorAll('[data-demo]').forEach(button=>button.addEventListener('click',()=>{
+   lastFocus=button; const id=Number(button.dataset.demo); title.textContent=headings[id];overlay.hidden=false;document.body.classList.add('demo-open');
+   result.textContent='Ready to simulate.';
+   let content='';
+   if(id===1) content=`${field('Customer name','name','text','Alex Rivera')}${field('Service requested','service','text','Appointment scheduling')}<button class="btn primary" type="submit">ADD SAMPLE ROW</button>`;
+   if(id===2) content=`${field('Notification subject','subject','text','New lead received')}${field('Team or channel','channel','text','Sales Team')}<button class="btn primary" type="submit">SIMULATE ALERT</button>`;
+   if(id===3) content=`${field('Recipient name','recipient','text','Jamie Cruz')}${field('Request topic','topic','text','Pricing inquiry')}<button class="btn primary" type="submit">PREVIEW EMAIL</button>`;
+   if(id===4) content=`<label class="demo-field">Request type<select name="kind"><option value="quote">Pricing / Quote</option><option value="support">Support request</option><option value="general">General inquiry</option></select></label><button class="btn primary" type="submit">RUN ROUTER</button>`;
+   controls.innerHTML=`<form id="activeDemo" class="demo-form" data-id="${id}">${content}</form>`;
+   controls.querySelector('input,select').focus();
+ }));
+ document.getElementById('demoClose').addEventListener('click',close);
+ overlay.addEventListener('click',e=>{if(e.target===overlay)close()});
+ document.addEventListener('keydown',e=>{if(overlay.hidden)return;if(e.key==='Escape')close();if(e.key==='Tab'){const f=[...overlay.querySelectorAll('button,input,select')].filter(x=>x.offsetParent!==null);if(!f.length)return;const idx=f.indexOf(document.activeElement);if(e.shiftKey&&idx===0){e.preventDefault();f[f.length-1].focus()}else if(!e.shiftKey&&idx===f.length-1){e.preventDefault();f[0].focus()}}});
+ function close(){overlay.hidden=true;document.body.classList.remove('demo-open');if(lastFocus)lastFocus.focus()}
+ controls.addEventListener('submit',e=>{
+   e.preventDefault();const form=e.target,id=Number(form.dataset.id),values=Object.fromEntries(new FormData(form));let output='';
+   if(id===1){formRows.unshift({name:values.name,service:values.service,date:'Sample entry'});formRows=formRows.slice(0,5);output='<strong>Simulated Google Sheets rows</strong><div class="demo-scroll"><table><thead><tr><th>Customer</th><th>Service</th><th>Status</th></tr></thead><tbody>'+formRows.map(r=>`<tr><td>${clean(r.name)}</td><td>${clean(r.service)}</td><td>Simulated</td></tr>`).join('')+'</tbody></table></div>'}
+   else if(id===2)output=`<strong>Simulated Telegram notification</strong><div class="demo-msg">🔔 ${clean(values.subject)}<p>Send to: ${clean(values.channel)}</p><small>Preview only · Nothing was delivered</small></div>`;
+   else if(id===3)output=`<strong>Simulated email confirmation</strong><div class="demo-msg"><b>To:</b> ${clean(values.recipient)} (sample)<p><b>Subject:</b> We received your ${clean(values.topic)}</p><p>Hello ${clean(values.recipient)}, thank you for your inquiry. We've received your request regarding ${clean(values.topic)} and will follow up shortly.</p><small>Preview only · No email sent</small></div>`;
+   else {const info=values.kind==='quote'?['SALES QUEUE','Send pricing and quote inquiries to the sales team.']:values.kind==='support'?['SUPPORT QUEUE','Assign service issues to customer support.']:['GENERAL INBOX','Direct all other requests to the general inbox.'];output=`<strong>Conditional router: ${info[0]}</strong><div class="demo-msg">New Request → Condition Check → ${info[0]}<p>${info[1]}</p><small>Simulated branch, no external service connected</small></div>`}
+   result.innerHTML=output;
+ });
+})();
+</script>
 </body>
 </html>
