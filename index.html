@@ -412,6 +412,28 @@
       .orbit-ring,.hero::before{animation:none!important}
     }
 
+
+    /* Actual certificates, displayed in a layered holographic gallery */
+    .certificate-grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:34px; }
+    .certificate-card { position:relative;min-width:0;border:1px solid var(--border);background:linear-gradient(145deg,#0d2118,#050b09 78%);box-shadow:0 18px 44px #0008, inset 0 0 24px #39ff8807;overflow:hidden;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease; }
+    .certificate-card:hover { border-color:var(--green); transform:translateY(-6px);box-shadow:0 20px 50px #000b,0 0 25px #39ff8820; }
+    .certificate-card-top { display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px;padding:13px 17px;border-bottom:1px solid var(--border);font-size:10px;letter-spacing:1.1px;color:var(--lime); }
+    .certificate-status { color:var(--green); }
+    .certificate-preview { position:relative;display:block;isolation:isolate;overflow:hidden;background:#102318;padding:13px; }
+    .certificate-preview img { width:100%;height:auto;display:block;aspect-ratio:842 / 596;object-fit:contain;border:1px solid #39ff8848;box-shadow:0 0 19px #39ff881c;transition:transform .35s ease; }
+    .certificate-preview:hover img { transform:scale(1.025); }
+    .certificate-scan { position:absolute;inset:12px;pointer-events:none;background:linear-gradient(transparent 44%,#39ff8816 50%,transparent 56%);background-size:100% 230%;animation:certificateSweep 7s linear infinite; }
+    @keyframes certificateSweep { from { background-position:0 -100%; } to { background-position:0 100%; } }
+    .certificate-details { padding:18px 20px 21px; }
+    .certificate-details h3 { color:var(--green);letter-spacing:2px;margin:0 0 9px; }
+    .certificate-details p { color:var(--text);font-size:13px;line-height:1.6;margin:7px 0; }
+    .certificate-details .certificate-issuer { color:var(--lime);font-size:11px; }
+    .certificate-details .certificate-topics { color:var(--muted); }
+    .certificate-open { display:inline-flex;align-items:center;margin-top:13px;font-size:11px; }
+    .certificate-note { color:var(--muted);font-size:12px;line-height:1.7;margin-top:22px; }
+    @media (max-width:760px) { .certificate-grid { grid-template-columns:1fr; } }
+    @media (prefers-reduced-motion:reduce) { .certificate-scan { animation:none; } .certificate-card,.certificate-preview img { transition:none; } }
+
   </style>
 </head>
 
@@ -521,18 +543,68 @@
     </section>
 
     <section id="certificates" class="reveal">
-      <div class="section-label">03 / VERIFICATION DATABASE</div>
-      <h2>My <span class="green">Certificates</span></h2>
-      <p class="section-text">
-        Certificate details and verification links can be added here once
-        the original certificate files are uploaded.
-      </p>
-      <div class="cards">
-        <article class="card"><h3>Zapier</h3><p>Certificate details to be added.</p></article>
-        <article class="card"><h3>Make.com</h3><p>Certificate details to be added.</p></article>
-        <article class="card"><h3>n8n</h3><p>Certificate details to be added.</p></article>
-        <article class="card"><h3>GoHighLevel</h3><p>Certificate details to be added.</p></article>
+      <div class="section-label">03 / TECHNICAL CERTIFICATION DATABASE</div>
+      <h2>Training <span class="green">Certificates</span></h2>
+      <p class="section-text">Completed training certificates issued by Technical Virtual Assistants PH on November 28, 2025. Select a certificate to view the original PDF.</p>
+      <div class="certificate-grid">
+        <article class="certificate-card" aria-label="Zapier completion certificate">
+          <div class="certificate-card-top"><span>RECORD / 01</span><span class="certificate-status">● TRAINING COMPLETED</span></div>
+          <a class="certificate-preview" href="certificate-zapier.pdf" target="_blank" rel="noopener noreferrer" aria-label="Open Zapier certificate PDF in a new tab">
+            <img loading="lazy" src="certificate-zapier.png" alt="Certificate of Completion for Abegail Albea: No Code Automation with Zapier" />
+            <span class="certificate-scan" aria-hidden="true"></span>
+          </a>
+          <div class="certificate-details">
+            <h3>ZAPIER</h3>
+            <p>No Code Automation with Zapier</p>
+            <p class="certificate-issuer">Technical Virtual Assistants PH · 28 NOV 2025</p>
+            <p class="certificate-topics">Triggers, Formatter, Filters, Paths, Webhooks</p>
+            <a class="btn certificate-open" href="certificate-zapier.pdf" target="_blank" rel="noopener noreferrer">VIEW CERTIFICATE ↗</a>
+          </div>
+        </article>
+        <article class="certificate-card" aria-label="Make.com completion certificate">
+          <div class="certificate-card-top"><span>RECORD / 02</span><span class="certificate-status">● TRAINING COMPLETED</span></div>
+          <a class="certificate-preview" href="certificate-make.pdf" target="_blank" rel="noopener noreferrer" aria-label="Open Make.com certificate PDF in a new tab">
+            <img loading="lazy" src="certificate-make.png" alt="Certificate of Completion for Abegail Albea: No Code Automation with Make.com" />
+            <span class="certificate-scan" aria-hidden="true"></span>
+          </a>
+          <div class="certificate-details">
+            <h3>MAKE.COM</h3>
+            <p>No Code Automation with Make.com</p>
+            <p class="certificate-issuer">Technical Virtual Assistants PH · 28 NOV 2025</p>
+            <p class="certificate-topics">Scenarios, Routers, Error Handling, HTTP Requests</p>
+            <a class="btn certificate-open" href="certificate-make.pdf" target="_blank" rel="noopener noreferrer">VIEW CERTIFICATE ↗</a>
+          </div>
+        </article>
+        <article class="certificate-card" aria-label="n8n completion certificate">
+          <div class="certificate-card-top"><span>RECORD / 03</span><span class="certificate-status">● TRAINING COMPLETED</span></div>
+          <a class="certificate-preview" href="certificate-n8n.pdf" target="_blank" rel="noopener noreferrer" aria-label="Open n8n certificate PDF in a new tab">
+            <img loading="lazy" src="certificate-n8n.png" alt="Certificate of Completion for Abegail Albea: AI Automation with n8n" />
+            <span class="certificate-scan" aria-hidden="true"></span>
+          </a>
+          <div class="certificate-details">
+            <h3>N8N</h3>
+            <p>AI Automation with n8n</p>
+            <p class="certificate-issuer">Technical Virtual Assistants PH · 28 NOV 2025</p>
+            <p class="certificate-topics">Workflow Nodes, Branching, APIs, AI Agents</p>
+            <a class="btn certificate-open" href="certificate-n8n.pdf" target="_blank" rel="noopener noreferrer">VIEW CERTIFICATE ↗</a>
+          </div>
+        </article>
+        <article class="certificate-card" aria-label="HighLevel completion certificate">
+          <div class="certificate-card-top"><span>RECORD / 04</span><span class="certificate-status">● TRAINING COMPLETED</span></div>
+          <a class="certificate-preview" href="certificate-highlevel.pdf" target="_blank" rel="noopener noreferrer" aria-label="Open HighLevel certificate PDF in a new tab">
+            <img loading="lazy" src="certificate-highlevel.png" alt="Certificate of Completion for Abegail Albea: HighLevel CRM Full Training" />
+            <span class="certificate-scan" aria-hidden="true"></span>
+          </a>
+          <div class="certificate-details">
+            <h3>HIGHLEVEL</h3>
+            <p>HighLevel CRM Full Training</p>
+            <p class="certificate-issuer">Technical Virtual Assistants PH · 28 NOV 2025</p>
+            <p class="certificate-topics">CRM, Funnels, Forms, Marketing Automations</p>
+            <a class="btn certificate-open" href="certificate-highlevel.pdf" target="_blank" rel="noopener noreferrer">VIEW CERTIFICATE ↗</a>
+          </div>
+        </article>
       </div>
+      <p class="certificate-note">These are training completion certificates, not professional licenses or vendor-issued certifications.</p>
     </section>
 
     <section id="projects" class="reveal">
