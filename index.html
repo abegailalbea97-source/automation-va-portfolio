@@ -347,53 +347,69 @@
       .reveal { opacity: 1; transform: none; }
     }
 
-    /* 3D cybernetic command center, progressively enhanced */
-    :root { --tilt-x: 0deg; --tilt-y: 0deg; }
-    .hero { perspective: 1300px; isolation: isolate; position: relative; }
-    .hero > div:not(.hero-grid-floor) { position: relative; z-index: 2; }
-    .hero::before {
-      content: ""; position: absolute; z-index: -1; width: min(75vw, 850px);
-      height: 560px; right: -10%; top: 5%; pointer-events: none;
-      background: radial-gradient(ellipse, rgba(57,255,136,.12), transparent 64%);
-      transform: rotateX(65deg) rotateZ(-20deg); filter: blur(14px);
+    /* Enhanced 3D command center: true layered portrait and cursor-reactive panels */
+    .hero { perspective: 950px; isolation:isolate; position:relative; overflow:hidden; }
+    .hero > div:not(.hero-grid-floor) { position:relative; z-index:2; }
+    .hero::before { content:""; position:absolute; inset:0; pointer-events:none;
+      background: radial-gradient(ellipse at 77% 40%, rgba(57,255,136,.18),transparent 45%),
+        repeating-linear-gradient(90deg, transparent 0 96px, rgba(57,255,136,.035) 97px, transparent 98px);
+      animation: systemBreathe 5s ease-in-out infinite alternate; }
+    @keyframes systemBreathe { from {opacity:.55} to {opacity:1} }
+    .portrait-stage { width:min(100%, 385px); aspect-ratio:1; margin:20px auto;
+      position:relative !important; display:grid; place-items:center; z-index:3 !important;
+      transform-style:preserve-3d; transform:rotateX(var(--stage-x, -5deg)) rotateY(var(--stage-y, 8deg));
+      transition:transform 240ms ease-out; filter:drop-shadow(0 22px 32px rgba(0,0,0,.7)); }
+    .portrait-stage::before, .portrait-stage::after { content:""; position:absolute; inset:-14px;
+      border:2px solid rgba(57,255,136,.78); pointer-events:none; z-index:0;
+      clip-path:polygon(0 0,30% 0,30% 2px,2px 2px,2px 30%,0 30%,0 0,70% 0,100% 0,100% 30%,calc(100% - 2px) 30%,calc(100% - 2px) 2px,70% 2px,70% 0, 100% 70%,100% 100%,70% 100%,70% calc(100% - 2px),calc(100% - 2px) calc(100% - 2px),calc(100% - 2px) 70%,100% 70%,30% 100%,0 100%,0 70%,2px 70%,2px calc(100% - 2px),30% calc(100% - 2px));
+      box-shadow:0 0 18px rgba(57,255,136,.5); }
+    .portrait-stage::after { inset:-28px; border-color:rgba(181,255,69,.23); transform:translateZ(-35px) rotate(7deg); }
+    .robot-frame { width:88%; aspect-ratio: .87; transform:translateZ(50px); transform-style:preserve-3d;
+      transition:box-shadow .3s ease; border:2px solid #39ff88;
+      box-shadow:0 25px 70px #000c,0 0 32px #39ff8866,inset 0 0 30px #39ff8830; }
+    .robot-frame > img { width:100%; height:100%; display:block; object-fit:cover; }
+    .robot-frame::after {content:"GAIL // OPERATOR ONLINE"; position:absolute; bottom:10px; left:12%; right:12%;
+      text-align:center; padding:8px 4px; font-size:10px; letter-spacing:1px;
+      color:#c6ffd4; background:rgba(1,12,6,.82); border:1px solid #39ff8899; pointer-events:none; }
+    .holo-orbit {display:none}
+    .orbit-ring { position:absolute; width:108%; aspect-ratio:1; border:1px dashed rgba(57,255,136,.55);
+      border-radius:50%; transform:translateZ(-40px) rotateX(69deg);
+      box-shadow:0 0 22px #39ff8830; pointer-events:none; animation:orbitSweep 13s linear infinite; }
+    .orbit-ring.outer { width:118%; transform:translateZ(-58px) rotateY(70deg); border-color:#b5ff4588; animation-duration:18s; animation-direction:reverse; }
+    @keyframes orbitSweep { to { rotate:360deg; } }
+    .hud-chip {position:absolute; z-index:5; background:rgba(3,18,10,.92); color:#b5ff45;
+      border:1px solid #39ff88aa; padding:9px 12px; letter-spacing:1.2px; font-size:10px;
+      box-shadow:0 0 15px #39ff8833; pointer-events:none; white-space:nowrap; }
+    .hud-chip.top {top:7%; right:-15%; transform:translateZ(90px)}
+    .hud-chip.bottom {bottom:9%; left:-18%; transform:translateZ(85px)}
+    .cards {perspective:1100px;}
+    .card { transform-style:preserve-3d; position:relative; overflow:hidden; will-change:transform;
+      transition:transform 140ms ease-out,border-color .25s,box-shadow .25s; }
+    .card:hover, .card:focus-within { transform:perspective(850px) rotateX(var(--card-x, 5deg)) rotateY(var(--card-y, -5deg)) translateY(-13px) scale(1.025) !important;
+      box-shadow:0 26px 46px #0009,0 0 30px #39ff883c; border-color:#39ff88; }
+    .card::before {content:"";position:absolute;inset:0;pointer-events:none;
+      background:radial-gradient(circle at var(--shine-x,50%) var(--shine-y,50%),rgba(57,255,136,.23),transparent 55%);
+      opacity:0;transition:opacity .2s; }
+    .card:hover::before {opacity:1}
+    .card h3, .card .tag {position:relative;transform:translateZ(22px)}
+    .contact-box { box-shadow:0 28px 60px #0008, inset 0 0 35px #39ff8815; }
+    .hero-grid-floor {position:absolute;left:0;right:0;bottom:-55px;height:210px;
+      transform:perspective(420px) rotateX(69deg);transform-origin:bottom center;
+      background-image:linear-gradient(#39ff8840 1px,transparent 1px),linear-gradient(90deg,#39ff8840 1px,transparent 1px);
+      background-size:43px 43px; mask-image:linear-gradient(transparent,#000);pointer-events:none;opacity:.65;}
+    @media (max-width:960px) {
+      .hud-chip.top{right:-4%}.hud-chip.bottom{left:-4%}
     }
-    .robot-frame {
-      transform-style: preserve-3d;
-      transform: rotateY(var(--tilt-y)) rotateX(var(--tilt-x));
-      transition: transform 380ms cubic-bezier(.2,.8,.2,1), box-shadow 300ms ease;
-      box-shadow: 0 25px 70px rgba(0,0,0,.65), 0 0 40px rgba(57,255,136,.25), inset 0 0 35px rgba(57,255,136,.12);
-    }
-    .robot-frame > img { transform: translateZ(24px); }
-    .robot-frame::after {
-      content: "OPERATOR // GAIL ALBEA"; position: absolute; bottom: 14px; left: 16%; right: 16%;
-      text-align: center; color: #b5ff45; font-size: 9px; letter-spacing: 1.5px;
-      padding: 6px; background: rgba(1,18,9,.8); border: 1px solid rgba(57,255,136,.55);
-      transform: translateZ(40px); pointer-events:none;
-    }
-    .holo-orbit { position: absolute; inset: -22px; pointer-events: none; border: 1px solid rgba(57,255,136,.34);
-      border-radius: 50%; transform: translateZ(-22px) rotateX(64deg); box-shadow: 0 0 24px rgba(57,255,136,.17); }
-    .holo-orbit:nth-of-type(2) { inset: -37px; transform: translateZ(-34px) rotateY(64deg); border-style: dashed; opacity: .7; }
-    .card, .contact-box { transform-style: preserve-3d; will-change: transform; }
-    .card { transition: transform 220ms ease-out, border-color .3s, box-shadow .3s; }
-    .card::before { content:""; position:absolute; inset:0; pointer-events:none;
-      background:linear-gradient(125deg, transparent 15%, rgba(57,255,136,.06) 40%, transparent 62%);
-      opacity:0; transition:opacity .3s; }
-    .card:hover::before { opacity:1; }
-    .card:hover { transform: perspective(900px) rotateX(var(--card-x, 0deg)) rotateY(var(--card-y, 0deg)) translateY(-6px);
-      box-shadow: 0 20px 45px rgba(0,0,0,.38), 0 0 22px rgba(57,255,136,.09); }
-    .card h3, .card .tag { position: relative; transform: translateZ(12px); }
-    .contact-box { box-shadow: 0 18px 55px rgba(0,0,0,.35), inset 0 0 30px rgba(57,255,136,.06); }
-    .hero-grid-floor { position: absolute; left: 0; right: 0; bottom: -55px; height: 190px;
-      transform: perspective(400px) rotateX(68deg); transform-origin: bottom center;
-      background-image: linear-gradient(rgba(57,255,136,.15) 1px, transparent 1px), linear-gradient(90deg, rgba(57,255,136,.15) 1px, transparent 1px);
-      background-size: 42px 42px; mask-image: linear-gradient(transparent, #000); pointer-events:none; opacity: .44; }
     @media (max-width:760px) {
-      .holo-orbit { display:none; }
-      .hero-grid-floor { opacity:.2; }
-      .robot-frame { transform:none !important; }
+      .portrait-stage{width:min(78vw,320px); transform:none !important; margin:36px auto;}
+      .hud-chip{font-size:8px;padding:6px;}
+      .orbit-ring{display:none}
+      .robot-frame{width:90%;}
+      .hero-grid-floor{opacity:.22}
     }
     @media (prefers-reduced-motion:reduce) {
-      .robot-frame,.card { transform:none !important; transition:none !important; }
+      .portrait-stage,.card{transition:none!important;animation:none!important;transform:none!important}
+      .orbit-ring,.hero::before{animation:none!important}
     }
 
   </style>
@@ -432,6 +448,11 @@
         </div>
       </div>
 
+      <div class="portrait-stage" aria-label="Interactive holographic portrait">
+        <span class="orbit-ring" aria-hidden="true"></span>
+        <span class="orbit-ring outer" aria-hidden="true"></span>
+        <span class="hud-chip top" aria-hidden="true">SYS / 100% ONLINE</span>
+        <span class="hud-chip bottom" aria-hidden="true">AI // WORKFLOW OPERATOR</span>
       <div class="robot-frame" aria-label="Profile photo of Abegail Albea">
         <span class="holo-orbit" aria-hidden="true"></span>
         <span class="holo-orbit" aria-hidden="true"></span>
@@ -440,6 +461,7 @@
   alt="Abegail Gail Albea"
   style="width:100%; height:100%; object-fit:cover; border-radius:20px; display:block;"
 />
+      </div>
       </div>
     </header>
 
@@ -712,33 +734,36 @@
 
 
 <script>
-  // Interactive depth uses only local CSS and mouse coordinates.
+  // Live 3D motion: the entire stage reacts, not the clipped photo alone.
   (() => {
     const fine = matchMedia('(hover: hover) and (pointer: fine)');
     const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-    if (!fine.matches || reduced.matches) return;
-    const portrait = document.querySelector('.robot-frame');
-    if (portrait) {
-      portrait.addEventListener('pointermove', e => {
-        const b = portrait.getBoundingClientRect();
-        const x = (e.clientX - b.left) / b.width - .5;
-        const y = (e.clientY - b.top) / b.height - .5;
-        portrait.style.setProperty('--tilt-y', (x * 15).toFixed(2) + 'deg');
-        portrait.style.setProperty('--tilt-x', (-y * 15).toFixed(2) + 'deg');
-      }, {passive:true});
-      portrait.addEventListener('pointerleave', () => {
-        portrait.style.setProperty('--tilt-y', '0deg');
-        portrait.style.setProperty('--tilt-x', '0deg');
-      });
-    }
+    const stage = document.querySelector('.portrait-stage');
+    if (!stage || !fine.matches || reduced.matches) return;
+    const moveStage = e => {
+      const b = stage.getBoundingClientRect();
+      const x = (e.clientX - (b.left + b.width/2)) / (b.width/2);
+      const y = (e.clientY - (b.top + b.height/2)) / (b.height/2);
+      stage.style.setProperty('--stage-y', (x * 19).toFixed(1) + 'deg');
+      stage.style.setProperty('--stage-x', (-y * 17).toFixed(1) + 'deg');
+    };
+    stage.addEventListener('pointermove',moveStage,{passive:true});
+    stage.addEventListener('pointerleave',() => {
+      stage.style.removeProperty('--stage-x');
+      stage.style.removeProperty('--stage-y');
+    });
     document.querySelectorAll('.card').forEach(card => {
-      card.addEventListener('pointermove', e => {
-        const b = card.getBoundingClientRect();
-        card.style.setProperty('--card-y', (((e.clientX-b.left)/b.width-.5)*8).toFixed(1)+'deg');
-        card.style.setProperty('--card-x', ((.5-(e.clientY-b.top)/b.height)*8).toFixed(1)+'deg');
-      }, {passive:true});
-      card.addEventListener('pointerleave', () => {
-        card.style.setProperty('--card-y','0deg'); card.style.setProperty('--card-x','0deg');
+      card.addEventListener('pointermove',e => {
+        const b=card.getBoundingClientRect();
+        const x=(e.clientX-b.left)/b.width;
+        const y=(e.clientY-b.top)/b.height;
+        card.style.setProperty('--card-y',((x-.5)*23).toFixed(1)+'deg');
+        card.style.setProperty('--card-x',((.5-y)*20).toFixed(1)+'deg');
+        card.style.setProperty('--shine-x',(x*100).toFixed(0)+'%');
+        card.style.setProperty('--shine-y',(y*100).toFixed(0)+'%');
+      },{passive:true});
+      card.addEventListener('pointerleave',()=>{
+        card.style.removeProperty('--card-x');card.style.removeProperty('--card-y');
       });
     });
   })();
