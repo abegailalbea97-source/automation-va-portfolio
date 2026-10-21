@@ -8,37 +8,44 @@
   <meta name="description" content="Abegail Albea — Automation Virtual Assistant portfolio." />
   <title>Abegail Albea | Automation VA</title>
 
-  <style>//* FUTURISTIC ROBOTIC CURSOR */
-.logo-cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 34px;
-  height: 34px;
-  background: url("cursor-ready.png") center / contain no-repeat;
-  pointer-events: none;
-  z-index: 2147483647;
-  transform: translate(-50%, -50%);
-  display: none;
-  visibility: visible;
-  opacity: 1;
-  filter: drop-shadow(0 0 10px rgba(57, 255, 136, 0.8));
-  transition: transform 0.12s ease, filter 0.12s ease;
-}
-.logo-cursor.active {
-  transform: translate(-50%, -50%) scale(1.18);
-  filter: drop-shadow(0 0 16px rgba(57, 255, 136, 1));
-}
- 
-@media (hover: hover) and (pointer: fine) {
-  .logo-cursor {
-    display: block;
-  }
+  <style>
+    /* Custom robotic logo cursor. Enabled only after the image loads. */
+    #logoCursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 40px;
+      height: 40px;
+      z-index: 2147483647;
+      pointer-events: none;
+      display: none;
+      transform: translate3d(-100px, -100px, 0);
+      will-change: transform;
+    }
 
-  html, body {
-    cursor: auto !important;
-  }
-}
+    #logoCursor img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 0 6px rgba(57, 255, 136, .7));
+      transition: transform .12s ease, filter .12s ease;
+    }
+
+    #logoCursor.is-hovering img {
+      transform: scale(1.2);
+      filter: drop-shadow(0 0 11px rgba(57, 255, 136, 1));
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      html.has-logo-cursor #logoCursor { display: block; }
+      html.has-logo-cursor, html.has-logo-cursor * { cursor: none !important; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #logoCursor img { transition: none; }
+    }
+
    :root { 
     --bg: #050807;
       --panel: rgba(9, 22, 16, 0.88);
@@ -374,8 +381,7 @@
         </div>
       </div>
 
-      <div class="robot-frame" Profile photo of Abegail Albea">
-        <!-- Add your photo at images/gail-profile.jpg to replace this placeholder -->
+      <div class="robot-frame" aria-label="Profile photo of Abegail Albea">
     <img
   src="profile.jpg.png"
   alt="Abegail Gail Albea"
@@ -599,44 +605,57 @@
     document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
 
     document.getElementById("year").textContent = new Date().getFullYear();
-
-    // Automatically show the real photo when its file exists
-    const img = new Image();
-    img.src = "images/gail-profile.jpg";
-    img.onload = () => {
-      const placeholder = document.getElementById("photo-placeholder");
-      const portrait = document.createElement("img");
-      portrait.src = img.src;
-      portrait.alt = "Portrait of Abegail Albea";
-      portrait.className = "portrait";
-      placeholder.replaceWith(portrait);
-    };
   </script>
-  <!-- ROBOTIC A CUSTOM MOUSE CURSOR -->
-<div id="logoCursor" class="logo-cursor" aria-hidden="true"></div>
+  <!-- Desktop-only robotic logo cursor; native pointer remains if image fails. -->
+  <div id="logoCursor" aria-hidden="true">
+    <img id="logoCursorImage" src="cursor-ready.png" alt="" draggable="false" />
+  </div>
+  <script>
+    (() => {
+      const cursor = document.getElementById("logoCursor");
+      const image = document.getElementById("logoCursorImage");
+      const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+      let imageReady = false;
 
-<script>
-(function () {
-  const cursor = document.getElementById("logoCursor");
-  const desktop = window.matchMedia("(hover: hover) and (pointer: fine)");
+      function syncCursor() {
+        if (!finePointer.matches) {
+          document.documentElement.classList.remove("has-logo-cursor");
+          cursor.classList.remove("is-hovering");
+        }
+      }
 
-  if (!cursor || !desktop.matches) return;
+      function onMove(event) {
+        if (!finePointer.matches || !imageReady) return;
+        cursor.style.transform =
+          `translate3d(${event.clientX - 5}px, ${event.clientY - 4}px, 0)`;
+        document.documentElement.classList.add("has-logo-cursor");
+      }
 
-  document.addEventListener("mousemove", function (e) {
-    cursor.style.left = e.clientX + "px";
-    cursor.style.top = e.clientY + "px";
-  });
+      function onImageReady() {
+        imageReady = image.naturalWidth > 0;
+      }
 
-  document.querySelectorAll("a, button, .btn").forEach(function (el) {
-    el.addEventListener("mouseenter", function () {
-      cursor.classList.add("active");
-    });
+      image.addEventListener("load", onImageReady);
+      image.addEventListener("error", () => {
+        imageReady = false;
+        document.documentElement.classList.remove("has-logo-cursor");
+      });
+      if (image.complete) onImageReady();
 
-    el.addEventListener("mouseleave", function () {
-      cursor.classList.remove("active");
-    });
-  });
-})();
-</script>
+      document.addEventListener("pointermove", onMove, { passive: true });
+      document.addEventListener("pointerover", (event) => {
+        cursor.classList.toggle("is-hovering",
+          Boolean(event.target.closest("a, button, .btn, [role='button']")));
+      });
+      document.addEventListener("pointerout", (event) => {
+        if (!event.relatedTarget ||
+            !event.relatedTarget.closest("a, button, .btn, [role='button']")) {
+          cursor.classList.remove("is-hovering");
+        }
+      });
+      if (finePointer.addEventListener) finePointer.addEventListener("change", syncCursor);
+    })();
+  </script>
+
 </body>
 </html>
