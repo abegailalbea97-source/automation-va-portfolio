@@ -555,6 +555,487 @@
     }
 
 
+    
+    /* Hologram appear transition */
+    .portrait-stage,
+    .robot-frame,
+    .hologram-wrap,
+    .hud-chip,
+    .robot-frame::before,
+    .robot-frame::after {
+      will-change: transform, opacity, filter, clip-path;
+    }
+
+    .portrait-stage {
+      opacity: 0;
+      transform: translateY(28px) scale(.96);
+      filter: blur(8px);
+    }
+
+    body.profile-appear .portrait-stage {
+      animation: holoMaterialize 1.15s cubic-bezier(.2,.8,.2,1) forwards;
+      animation-delay: .12s;
+    }
+
+    body.profile-appear .robot-frame {
+      animation: holoFrameGlow 1.25s ease-out forwards;
+    }
+
+    body.profile-appear .hologram-wrap {
+      animation: holoReveal 1.2s cubic-bezier(.18,.84,.22,1) forwards;
+      clip-path: inset(100% 0 0 0);
+      opacity: 0;
+      filter: brightness(1.35) blur(12px);
+    }
+
+    body.profile-appear .hologram-photo {
+      animation: holoPhotoResolve 1.35s ease-out forwards;
+      opacity: 0;
+      transform: scale(1.04);
+    }
+
+    body.profile-appear .holo-glitch {
+      animation:
+        holoSweep 5.5s ease-in-out infinite,
+        holoGlitchIntro 1.05s steps(10, end) 1;
+    }
+
+    body.profile-appear .holo-beam {
+      animation:
+        beamPulse 3.2s ease-in-out infinite alternate,
+        beamIgnite 1s ease-out 1;
+    }
+
+    body.profile-appear .hud-chip {
+      opacity: 0;
+      transform: translateY(10px);
+      animation: hudAppear .7s ease-out forwards;
+    }
+
+    body.profile-appear .hud-chip.top { animation-delay: .72s; }
+    body.profile-appear .hud-chip.bottom { animation-delay: .9s; }
+
+    @keyframes holoMaterialize {
+      0% {
+        opacity: 0;
+        transform: translateY(28px) scale(.96);
+        filter: blur(8px);
+      }
+      55% {
+        opacity: 1;
+        transform: translateY(0) scale(1.01);
+        filter: blur(2px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes holoReveal {
+      0% {
+        clip-path: inset(100% 0 0 0);
+        opacity: 0;
+        filter: brightness(1.35) blur(12px);
+      }
+      25% {
+        opacity: .75;
+      }
+      72% {
+        clip-path: inset(0 0 0 0);
+        opacity: 1;
+        filter: brightness(1.15) blur(2px);
+      }
+      100% {
+        clip-path: inset(0 0 0 0);
+        opacity: 1;
+        filter: brightness(1) blur(0);
+      }
+    }
+
+    @keyframes holoPhotoResolve {
+      0% {
+        opacity: 0;
+        transform: scale(1.04);
+        filter: saturate(.4) brightness(1.3) contrast(1.25);
+      }
+      55% {
+        opacity: .9;
+        transform: scale(1.015);
+        filter: saturate(.75) brightness(1.08) contrast(1.12);
+      }
+      100% {
+        opacity: .92;
+        transform: scale(1);
+        filter: saturate(.78) brightness(.92) contrast(1.08) drop-shadow(0 0 18px rgba(57,255,136,.20));
+      }
+    }
+
+    @keyframes holoFrameGlow {
+      0% {
+        box-shadow: 0 0 0 rgba(57,255,136,0), 0 0 0 rgba(57,255,136,0), inset 0 0 0 rgba(57,255,136,0);
+      }
+      50% {
+        box-shadow: 0 0 46px rgba(57,255,136,.35), 0 0 90px rgba(57,255,136,.2), inset 0 0 24px rgba(57,255,136,.18);
+      }
+      100% {
+        box-shadow: 0 25px 70px rgba(0,0,0,.65), 0 0 40px rgba(57,255,136,.25), inset 0 0 35px rgba(57,255,136,.12);
+      }
+    }
+
+    @keyframes holoGlitchIntro {
+      0% { opacity: 0; transform: translateX(-16px); }
+      14% { opacity: .95; transform: translateX(8px); }
+      28% { opacity: .35; transform: translateX(-4px); }
+      42% { opacity: .85; transform: translateX(10px); }
+      56% { opacity: .45; transform: translateX(-3px); }
+      75% { opacity: .7; transform: translateX(4px); }
+      100% { opacity: .6; transform: translateX(0); }
+    }
+
+    @keyframes beamIgnite {
+      0% { opacity: 0; transform: scaleX(.45) scaleY(.65); filter: blur(18px); }
+      45% { opacity: .95; transform: scaleX(1.08) scaleY(1); filter: blur(12px); }
+      100% { opacity: .75; transform: scaleX(1) scaleY(1); filter: blur(12px); }
+    }
+
+    @keyframes hudAppear {
+      0% {
+        opacity: 0;
+        transform: translateY(10px);
+        filter: blur(4px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .portrait-stage,
+      .hologram-wrap,
+      .hologram-photo,
+      .hud-chip {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+        clip-path: none !important;
+      }
+    }
+
+
+    
+    /* IRON MAN cinematic scene system */
+    :root {
+      --hud-orange: #ff9f43;
+      --hud-gold: #ffd06a;
+      --hud-red: #ff5f57;
+      --hud-cyan: #73f3ff;
+      --scene-glow: rgba(255, 159, 67, 0.22);
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 20% 10%, rgba(255, 159, 67, .18), transparent 28%),
+        radial-gradient(circle at 80% 18%, rgba(115,243,255,.08), transparent 22%),
+        radial-gradient(circle at 50% 80%, rgba(57,255,136,.08), transparent 30%),
+        linear-gradient(180deg, #020706 0%, #030a08 100%);
+      transition: background 900ms ease, color 500ms ease;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -2;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255,159,67,.05), transparent 55%),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.018) 0 1px, transparent 1px 90px),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.012) 0 1px, transparent 1px 90px);
+      opacity: .85;
+      transition: opacity 600ms ease, background 900ms ease;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      background:
+        linear-gradient(120deg, rgba(255,159,67,.06), transparent 35%, rgba(115,243,255,.04) 60%, transparent 82%);
+      mix-blend-mode: screen;
+      opacity: .65;
+      transition: opacity 700ms ease, transform 900ms ease, background 900ms ease;
+      transform: scale(1.02);
+    }
+
+    body.scene-home {
+      background:
+        radial-gradient(circle at 18% 18%, rgba(255,159,67,.22), transparent 30%),
+        radial-gradient(circle at 75% 30%, rgba(57,255,136,.10), transparent 25%),
+        linear-gradient(180deg, #040807 0%, #020504 100%);
+    }
+
+    body.scene-about {
+      background:
+        radial-gradient(circle at 80% 15%, rgba(115,243,255,.16), transparent 26%),
+        radial-gradient(circle at 15% 72%, rgba(255,159,67,.12), transparent 30%),
+        linear-gradient(180deg, #03080a 0%, #030607 100%);
+    }
+
+    body.scene-skills {
+      background:
+        radial-gradient(circle at 18% 28%, rgba(255,208,106,.16), transparent 24%),
+        radial-gradient(circle at 80% 74%, rgba(57,255,136,.09), transparent 28%),
+        linear-gradient(180deg, #070707 0%, #040505 100%);
+    }
+
+    body.scene-certificates {
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255,159,67,.22), transparent 24%),
+        radial-gradient(circle at 80% 70%, rgba(115,243,255,.10), transparent 24%),
+        linear-gradient(180deg, #090805 0%, #040403 100%);
+    }
+
+    body.scene-projects {
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,159,67,.20), transparent 24%),
+        radial-gradient(circle at 78% 18%, rgba(255,95,87,.12), transparent 20%),
+        radial-gradient(circle at 60% 72%, rgba(57,255,136,.08), transparent 26%),
+        linear-gradient(180deg, #070606 0%, #040303 100%);
+    }
+
+    body.scene-experience {
+      background:
+        radial-gradient(circle at 70% 18%, rgba(115,243,255,.15), transparent 24%),
+        radial-gradient(circle at 18% 78%, rgba(255,208,106,.11), transparent 28%),
+        linear-gradient(180deg, #050708 0%, #020406 100%);
+    }
+
+    body.scene-contact {
+      background:
+        radial-gradient(circle at 50% 15%, rgba(57,255,136,.14), transparent 20%),
+        radial-gradient(circle at 20% 70%, rgba(255,159,67,.18), transparent 28%),
+        linear-gradient(180deg, #050907 0%, #020504 100%);
+    }
+
+    body.scene-home::after { transform: perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1.02); }
+    body.scene-about::after { transform: perspective(1200px) rotateY(-2.8deg) rotateX(1.6deg) scale(1.03); }
+    body.scene-skills::after { transform: perspective(1200px) rotateY(2.8deg) rotateX(1deg) scale(1.03); }
+    body.scene-certificates::after { transform: perspective(1200px) rotateY(-3.5deg) rotateX(.6deg) scale(1.04); }
+    body.scene-projects::after { transform: perspective(1200px) rotateY(3.7deg) rotateX(1.2deg) scale(1.04); }
+    body.scene-experience::after { transform: perspective(1200px) rotateY(-2deg) rotateX(-.8deg) scale(1.03); }
+    body.scene-contact::after { transform: perspective(1200px) rotateY(0deg) rotateX(-1.3deg) scale(1.02); }
+
+    nav {
+      border-bottom: 1px solid rgba(255,159,67,.18);
+      box-shadow: 0 18px 40px rgba(0,0,0,.35);
+      backdrop-filter: blur(14px);
+    }
+
+    .logo {
+      color: var(--hud-gold);
+      text-shadow: 0 0 12px rgba(255,159,67,.35);
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: var(--hud-orange);
+      text-shadow: 0 0 10px rgba(255,159,67,.4);
+    }
+
+    .scene-block {
+      position: relative;
+      transform-style: preserve-3d;
+      transform-origin: center center;
+      transition: transform 900ms cubic-bezier(.2,.8,.2,1), opacity 600ms ease, filter 700ms ease;
+    }
+
+    .scene-block::before {
+      content: "";
+      position: absolute;
+      inset: -24px;
+      pointer-events: none;
+      border: 1px solid rgba(255,159,67,.08);
+      opacity: 0;
+      transform: translateZ(-30px) scale(.98);
+      transition: opacity 700ms ease, transform 900ms ease;
+    }
+
+    .scene-block.scene-in::before {
+      opacity: 1;
+      transform: translateZ(-10px) scale(1);
+    }
+
+    .scene-block.angle-left {
+      transform: perspective(1600px) rotateY(-7deg) rotateX(1.7deg) translateY(42px) scale(.97);
+      opacity: .45;
+      filter: blur(2px);
+    }
+
+    .scene-block.angle-right {
+      transform: perspective(1600px) rotateY(7deg) rotateX(1.7deg) translateY(42px) scale(.97);
+      opacity: .45;
+      filter: blur(2px);
+    }
+
+    .scene-block.angle-center {
+      transform: perspective(1600px) rotateY(0deg) rotateX(2.2deg) translateY(26px) scale(.985);
+      opacity: .55;
+      filter: blur(1px);
+    }
+
+    .scene-block.scene-in {
+      transform: perspective(1600px) rotateY(0deg) rotateX(0deg) translateY(0) scale(1);
+      opacity: 1;
+      filter: blur(0);
+    }
+
+    .scene-block.scene-out-left {
+      transform: perspective(1600px) rotateY(-10deg) rotateX(2deg) translateY(-12px) scale(.98);
+      opacity: .35;
+      filter: blur(2px);
+    }
+
+    .scene-block.scene-out-right {
+      transform: perspective(1600px) rotateY(10deg) rotateX(2deg) translateY(-12px) scale(.98);
+      opacity: .35;
+      filter: blur(2px);
+    }
+
+    .section-label,
+    .status,
+    .subtitle {
+      letter-spacing: .18em;
+    }
+
+    .section-label,
+    .hud-chip,
+    .status {
+      border-color: rgba(255,159,67,.45) !important;
+      color: var(--hud-gold) !important;
+      box-shadow: 0 0 20px rgba(255,159,67,.14);
+    }
+
+    .green,
+    .stat strong {
+      color: var(--hud-orange);
+      text-shadow: 0 0 10px rgba(255,159,67,.24);
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--hud-orange), var(--hud-gold));
+      color: #111;
+      border-color: rgba(255,159,67,.85);
+      box-shadow: 0 10px 28px rgba(255,159,67,.28);
+    }
+
+    .btn {
+      border-color: rgba(255,159,67,.42);
+    }
+
+    .btn:hover, .btn:focus-visible {
+      box-shadow: 0 0 24px rgba(255,159,67,.28);
+      transform: translateY(-3px) translateZ(12px);
+    }
+
+    .card,
+    .project-card,
+    .certificate-card,
+    .contact-box {
+      border-color: rgba(255,159,67,.25) !important;
+      box-shadow:
+        0 22px 60px rgba(0,0,0,.45),
+        0 0 0 1px rgba(255,159,67,.05),
+        inset 0 0 26px rgba(255,159,67,.05);
+    }
+
+    .card:hover,
+    .project-card:hover,
+    .certificate-card:hover {
+      box-shadow:
+        0 26px 68px rgba(0,0,0,.52),
+        0 0 0 1px rgba(255,159,67,.18),
+        0 0 28px rgba(255,159,67,.12);
+    }
+
+    .camera-orbit {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .camera-orbit::before,
+    .camera-orbit::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(255,159,67,.14);
+      filter: blur(.2px);
+    }
+
+    .camera-orbit::before {
+      width: 52vw;
+      height: 52vw;
+      min-width: 420px;
+      min-height: 420px;
+      right: -12vw;
+      top: -14vw;
+      box-shadow: 0 0 70px rgba(255,159,67,.08), inset 0 0 45px rgba(255,159,67,.04);
+      animation: orbitSpin 30s linear infinite;
+    }
+
+    .camera-orbit::after {
+      width: 34vw;
+      height: 34vw;
+      min-width: 250px;
+      min-height: 250px;
+      left: -10vw;
+      bottom: -10vw;
+      border-color: rgba(115,243,255,.12);
+      animation: orbitSpinReverse 24s linear infinite;
+    }
+
+    @keyframes orbitSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes orbitSpinReverse {
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      body,
+      body::before,
+      body::after,
+      .scene-block,
+      .scene-block::before {
+        transition: none !important;
+        animation: none !important;
+      }
+      .scene-block,
+      .scene-block.scene-in,
+      .scene-block.scene-out-left,
+      .scene-block.scene-out-right {
+        transform: none !important;
+        opacity: 1 !important;
+        filter: none !important;
+      }
+      .camera-orbit::before,
+      .camera-orbit::after {
+        animation: none !important;
+      }
+    }
+
+
     /* Actual certificates, displayed in a layered holographic gallery */
     .certificate-grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:34px; }
     .certificate-card { position:relative;min-width:0;border:1px solid var(--border);background:linear-gradient(145deg,#0d2118,#050b09 78%);box-shadow:0 18px 44px #0008, inset 0 0 24px #39ff8807;overflow:hidden;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease; }
@@ -580,6 +1061,7 @@
 </head>
 
 <body>
+  <div class="camera-orbit" aria-hidden="true"></div>
   <canvas id="matrix" aria-hidden="true"></canvas>
 
   <nav>
@@ -594,7 +1076,7 @@
   </nav>
 
   <main>
-    <header class="hero" id="home">
+    <header class="hero scene-block angle-center" id="home" data-scene="home">
       <div class="hero-grid-floor" aria-hidden="true"></div>
       <div>
         <div class="status">● SYSTEM STATUS: OPEN TO REMOTE OPPORTUNITIES</div>
@@ -635,7 +1117,7 @@
       </div>
     </header>
 
-    <section id="about" class="reveal">
+    <section id="about" class="reveal scene-block angle-left" data-scene="about">
       <div class="section-label">01 / OPERATOR PROFILE</div>
       <h2>Beyond the <span class="green">Automation</span></h2>
       <p class="section-text">
@@ -653,7 +1135,7 @@
       </p>
     </section>
 
-    <section id="skills" class="reveal">
+    <section id="skills" class="reveal scene-block angle-right" data-scene="skills">
       <div class="section-label">02 / TECHNOLOGY MATRIX</div>
       <h2>Tools & <span class="green">Capabilities</span></h2>
       <div class="cards">
@@ -690,7 +1172,7 @@
       </div>
     </section>
 
-    <section id="certificates" class="reveal">
+    <section id="certificates" class="reveal scene-block angle-left" data-scene="certificates">
       <div class="section-label">03 / TECHNICAL CERTIFICATION DATABASE</div>
       <h2>Training <span class="green">Certificates</span></h2>
       <p class="section-text">Completed training certificates issued by Technical Virtual Assistants PH on November 28, 2025. Select a certificate to view the original PDF.</p>
@@ -755,7 +1237,7 @@
       <p class="certificate-note">These are training completion certificates, not professional licenses or vendor-issued certifications.</p>
     </section>
 
-    <section id="projects" class="reveal">
+    <section id="projects" class="reveal scene-block angle-right" data-scene="projects">
       <div class="section-label">04 / AUTOMATION TEST LAB</div>
       <h2>Workflow <span class="green">Projects</span></h2>
       <p class="section-text">
@@ -786,7 +1268,7 @@
       </div>
     </section>
 
-    <section id="experience" class="reveal">
+    <section id="experience" class="reveal scene-block angle-left" data-scene="experience">
       <div class="section-label">05 / OPERATIONAL LOGS</div>
       <h2>Professional <span class="green">Experience</span></h2>
       <div class="timeline">
@@ -811,7 +1293,7 @@
       </div>
     </section>
 
-    <section id="contact" class="reveal">
+    <section id="contact" class="reveal scene-block angle-center" data-scene="contact">
       <div class="contact-box">
         <div class="section-label">06 / CONNECTION REQUEST</div>
         <h2>Let's Automate <span class="green">Something Great</span></h2>
@@ -988,5 +1470,56 @@
     });
   })();
 </script>
+
+  <script>
+    (() => {
+      const scenes = Array.from(document.querySelectorAll(".scene-block[data-scene]"));
+      const body = document.body;
+      if (!scenes.length) return;
+
+      const updateScene = (id) => {
+        body.classList.remove(
+          "scene-home","scene-about","scene-skills","scene-certificates",
+          "scene-projects","scene-experience","scene-contact"
+        );
+        body.classList.add(`scene-${id}`);
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          const target = entry.target;
+          const angleLeft = target.classList.contains("angle-left");
+          const angleRight = target.classList.contains("angle-right");
+
+          if (entry.isIntersecting && entry.intersectionRatio > 0.35) {
+            scenes.forEach((el) => el.classList.remove("scene-in"));
+            target.classList.add("scene-in");
+            target.classList.remove("scene-out-left", "scene-out-right");
+            updateScene(target.dataset.scene);
+          } else {
+            target.classList.remove("scene-in");
+            if (angleLeft) {
+              target.classList.add("scene-out-left");
+              target.classList.remove("scene-out-right");
+            } else if (angleRight) {
+              target.classList.add("scene-out-right");
+              target.classList.remove("scene-out-left");
+            }
+          }
+        });
+      }, { threshold: [0.2, 0.35, 0.6] });
+
+      scenes.forEach((scene, index) => {
+        if (index === 0) {
+          scene.classList.add("scene-in");
+          updateScene(scene.dataset.scene);
+        } else {
+          scene.classList.remove("scene-in");
+        }
+        observer.observe(scene);
+      });
+    })();
+  </script>
+
 </body>
 </html>
