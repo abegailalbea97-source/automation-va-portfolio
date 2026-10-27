@@ -70,7 +70,7 @@ export const experience = [
     skills: 'Zapier, Make.com, n8n, HighLevel, Google Workspace, Telegram, Supabase, workflow design, testing, and documentation.',
   },
   {
-    id: 'e1', role: 'Assistant Branch Manager', org: 'M Lhuillier Pawnshop · Philippines', period: null,
+    id: 'e1', role: 'Assistant Branch Manager', org: 'M Lhuillier Pawnshop · Philippines', period: '2023–2026',
     bullets: [
       'Supported daily branch operations and compliance procedures.',
       'Handled financial documentation and confidential records.',
