@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#050807" />
-  <meta name="description" content="Abegail Albea — Automation Virtual Assistant portfolio." />
+  <meta name="description" content="Abegail Albea: Automation Virtual Assistant. Zapier, Make.com, n8n and HighLevel workflows, backed by a background in data and operations since 2019." />
   <title>Abegail Albea | Automation VA</title>
 
   <style>
@@ -1528,6 +1528,20 @@ body.profile-appear .hologram-wrap { animation: holoReveal 1.2s cubic-bezier(.18
 body.profile-appear .hologram-photo { animation: holoPhotoResolve 1.35s ease-out forwards !important; }
 .hologram-photo { object-fit: cover; }
 
+/* Hero proof stats and services process */
+.hero-proof{list-style:none;display:flex;flex-wrap:wrap;gap:12px;padding:0;margin:26px 0 0}
+.hero-proof li{display:flex;flex-direction:column;gap:4px;min-width:130px;padding:12px 14px;border:1px solid rgba(255,159,67,.35);background:rgba(4,18,12,.6)}
+.hero-proof strong{font-size:26px;color:var(--hud-gold,#ffd06a);text-shadow:0 0 12px rgba(255,159,67,.3)}
+.hero-proof span{font-size:10px;letter-spacing:1px;color:var(--muted);text-transform:uppercase}
+.process-steps{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;padding:0;margin:30px 0 0}
+.process-steps li{display:flex;flex-direction:column;gap:6px;padding:16px;border-top:2px solid var(--hud-orange,#ff9f43);background:rgba(4,18,12,.55)}
+.process-steps strong{color:var(--hud-gold,#ffd06a);letter-spacing:1px}
+.process-steps span{color:var(--muted);font-size:13px;line-height:1.6}
+.showcase-card p{margin:8px 0}
+.contact-email{color:var(--text)!important;letter-spacing:1px}
+@media(max-width:760px){.hero-proof{justify-content:center}.process-steps{grid-template-columns:1fr 1fr}}
+@media(max-width:420px){.process-steps{grid-template-columns:1fr}}
+
 /* Project showcase and clearly marked example feedback */
 .showcase-grid,.feedback-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:30px}
 .showcase-card,.quote-card {min-width:0;padding:25px}
@@ -1614,8 +1628,8 @@ body.demo-open > .camera-orbit,body.demo-open > #aiPresenter { visibility:hidden
       <a href="#skills">SYSTEMS</a>
       <a href="#certificates">CERTIFICATES</a>
       <a href="#projects">PROJECTS</a>
-      <a href="#feedback">FEEDBACK</a>
-      <a href="#experience">LOGS</a>
+      <a href="#services">SERVICES</a>
+      <a href="#experience">EXPERIENCE</a>
       <a href="#contact">CONTACT</a>
       <a class="header-cta header-call" href="tel:+639150210143" aria-label="Call Gail now">☎ CALL NOW</a>
       <a class="header-cta header-book" href="mailto:abegailalbea97@gmail.com?subject=Booking%20Request%20-%20Portfolio%20Consultation" aria-label="Email Gail to request a booking">BOOK NOW</a>
@@ -1630,14 +1644,20 @@ body.demo-open > .camera-orbit,body.demo-open > #aiPresenter { visibility:hidden
         <h1>ABEGAIL<br /><span>ALBEA</span></h1>
         <div class="subtitle">AUTOMATION VIRTUAL ASSISTANT</div>
         <p class="intro">
-          Connecting systems. Automating workflows. Creating smarter processes.
-          I bring a background in operations, customer service, financial
-          documentation, and administrative support while building my skills
-          in workflow automation.
+          I turn repetitive admin work into reliable, automated workflows.
+          Since 2019 I've worked with data, records, and reports in government
+          research, public health, and branch operations. Now I build the
+          automations that handle that work for you, using Zapier, Make.com,
+          n8n, and HighLevel.
         </p>
+        <ul class="hero-proof">
+          <li><strong>2019</strong><span>working with data &amp; records since</span></li>
+          <li><strong>4</strong><span>automation platforms trained</span></li>
+          <li><strong>3</strong><span>roles in data &amp; operations</span></li>
+        </ul>
         <div class="buttons">
-          <a class="btn primary" href="#projects">ACCESS PROJECT LAB</a>
-          <a class="btn" href="#contact">INITIATE CONTACT</a>
+          <a class="btn primary" href="#projects">SEE MY WORKFLOWS</a>
+          <a class="btn" href="#contact">BOOK A FREE CALL</a>
         </div>
       </div>
 
@@ -1662,19 +1682,22 @@ body.demo-open > .camera-orbit,body.demo-open > #aiPresenter { visibility:hidden
 
     <section id="about" class="reveal scene-block angle-left" data-scene="about">
       <div class="section-label">01 / OPERATOR PROFILE</div>
-      <h2>Beyond the <span class="green">Automation</span></h2>
+      <h2>Operations first. <span class="green">Then automation.</span></h2>
       <p class="section-text">
-        I am an aspiring Automation Virtual Assistant transitioning from
-        administrative and operational work into workflow automation.
-        My experience as an Assistant Branch Manager at M Lhuillier helped
-        me develop skills in daily operations, customer service, financial
-        records, report preparation, documentation, and team coordination.
+        Good automation starts with knowing how the work is done. Before I
+        built workflows, I did the work by hand: encoding and validating
+        survey data for the Philippine Statistics Authority, keeping accurate
+        contact records under pressure for the DILG, and running financial
+        documentation, compliance, and reporting as an Assistant Branch
+        Manager at M Lhuillier.
       </p>
       <p class="section-text">
-        I am learning to connect digital tools, organize information, and
-        streamline repetitive tasks using Zapier, Make.com, n8n, and
-        GoHighLevel. My goal is to support businesses with reliable,
-        well-organized workflows while continuing to develop my technical skills.
+        Today I automate that kind of work for businesses. I connect forms,
+        spreadsheets, email, CRMs, and messaging apps with Zapier, Make.com,
+        n8n, and HighLevel. Leads get captured, data gets cleaned up, and
+        follow-ups go out without anyone copy-pasting. I map your process
+        first, build the workflow, test it against messy real-world data, and
+        document it so your team can trust it.
       </p>
     </section>
 
@@ -1684,22 +1707,22 @@ body.demo-open > .camera-orbit,body.demo-open > #aiPresenter { visibility:hidden
       <div class="cards">
         <article class="card">
           <h3>ZAPIER</h3>
-          <p>App integrations, triggers, actions, and multi-step workflow practice.</p>
+          <p>Multi-step Zaps with Formatter, Filters, Paths, and Webhooks.</p>
           <span class="tag">WORKFLOW AUTOMATION</span>
         </article>
         <article class="card">
           <h3>MAKE.COM</h3>
-          <p>Visual scenarios, routers, conditional paths, and execution history.</p>
+          <p>Scenarios with routers, error handling, HTTP requests, and execution monitoring.</p>
           <span class="tag">VISUAL AUTOMATION</span>
         </article>
         <article class="card">
           <h3>n8n</h3>
-          <p>Learning node-based workflows and connecting applications.</p>
-          <span class="tag">WORKFLOW BUILDER</span>
+          <p>Node-based workflows with branching, API calls, and AI agent steps.</p>
+          <span class="tag">AI AUTOMATION</span>
         </article>
         <article class="card">
           <h3>GOHIGHLEVEL</h3>
-          <p>CRM and marketing automation platform knowledge.</p>
+          <p>CRM pipelines, funnels, forms, and marketing automation sequences.</p>
           <span class="tag">CRM</span>
         </article>
         <article class="card">
@@ -1709,8 +1732,8 @@ body.demo-open > .camera-orbit,body.demo-open > #aiPresenter { visibility:hidden
         </article>
         <article class="card">
           <h3>INTEGRATIONS</h3>
-          <p>Practice with Google Forms, Google Sheets, Gmail, and Telegram notifications.</p>
-          <span class="tag">PRACTICE PROJECTS</span>
+          <p>Google Forms, Google Sheets, Gmail, and Telegram, connected into one flow.</p>
+          <span class="tag">GOOGLE WORKSPACE</span>
         </article>
       </div>
     </section>
@@ -1782,42 +1805,45 @@ body.demo-open > .camera-orbit,body.demo-open > #aiPresenter { visibility:hidden
 
     <section id="projects" class="reveal scene-block angle-right" data-scene="projects">
       <div class="section-label">04 / PROJECT SHOWCASE</div>
-      <h2>My Work & <span class="green">Achievements</span></h2>
+      <h2>Workflow <span class="green">Case Studies</span></h2>
       <p class="section-text">
-        A collection of workflow practice concepts and transferable skills from operations,
-        research, and administrative work. Demonstrations are clearly labeled and are not
-        presented as paid client projects.
+        Four workflows I designed and built around common small-business problems.
+        Each one has a live, interactive preview you can try right here.
       </p>
       <div class="showcase-grid">
         <article class="card showcase-card">
-          <div class="showcase-code">PROJECT 01 <span class="showcase-type">PRACTICE DEMO</span></div>
-          <h3>Form Submission & Data Organization</h3>
-          <p><strong>Goal:</strong> Capture form responses and organize them into a structured spreadsheet.</p>
-          <p><strong>Workflow concept:</strong> Google Forms → Google Sheets, with fields prepared for review and tracking.</p>
+          <div class="showcase-code">CASE 01 <span class="showcase-type">DEMO BUILD</span></div>
+          <h3>Lead Capture &amp; Data Organization</h3>
+          <p><strong>Problem:</strong> Form responses pile up in an inbox and get copied into spreadsheets by hand, with typos and missed entries.</p>
+          <p><strong>Workflow:</strong> Google Forms → field cleanup &amp; formatting → Google Sheets, with a status column for review and tracking.</p>
+          <p><strong>Value:</strong> Every submission lands in one place, formatted the same way, with no manual data entry.</p>
           <div class="showcase-skill"><span class="tag">GOOGLE FORMS</span><span class="tag">GOOGLE SHEETS</span><span class="tag">DATA ENTRY</span></div>
           <button class="btn demo-launch" type="button" data-demo="1">TRY FORM DEMO ↗</button>
         </article>
         <article class="card showcase-card">
-          <div class="showcase-code">PROJECT 02 <span class="showcase-type">PRACTICE DEMO</span></div>
-          <h3>Telegram Notification Workflow</h3>
-          <p><strong>Goal:</strong> Explore how teams can receive timely updates after a workflow event.</p>
-          <p><strong>Workflow concept:</strong> Form submission → trigger → Telegram alert message.</p>
+          <div class="showcase-code">CASE 02 <span class="showcase-type">DEMO BUILD</span></div>
+          <h3>Instant Team Alerts on Telegram</h3>
+          <p><strong>Problem:</strong> New inquiries sit unnoticed for hours because nobody is watching the form or inbox.</p>
+          <p><strong>Workflow:</strong> Form submission → trigger → formatted Telegram alert to the right team channel.</p>
+          <p><strong>Value:</strong> The team hears about new requests within seconds, so response times drop.</p>
           <div class="showcase-skill"><span class="tag">TELEGRAM</span><span class="tag">AUTOMATION</span><span class="tag">NOTIFICATIONS</span></div>
           <button class="btn demo-launch" type="button" data-demo="2">TRY TELEGRAM DEMO ↗</button>
         </article>
         <article class="card showcase-card">
-          <div class="showcase-code">PROJECT 03 <span class="showcase-type">PRACTICE DEMO</span></div>
-          <h3>Email Follow-Up & Confirmation</h3>
-          <p><strong>Goal:</strong> Reduce repetitive manual replies with a consistent confirmation process.</p>
-          <p><strong>Workflow concept:</strong> New form response → organized details → confirmation email.</p>
+          <div class="showcase-code">CASE 03 <span class="showcase-type">DEMO BUILD</span></div>
+          <h3>Automatic Email Confirmation</h3>
+          <p><strong>Problem:</strong> Staff type the same "we got your request" reply over and over, and some customers never hear back.</p>
+          <p><strong>Workflow:</strong> New form response → details mapped into a template → personalized confirmation email via Gmail.</p>
+          <p><strong>Value:</strong> Every customer gets a consistent, professional reply right away.</p>
           <div class="showcase-skill"><span class="tag">GMAIL</span><span class="tag">WORKFLOW DESIGN</span></div>
           <button class="btn demo-launch" type="button" data-demo="3">TRY EMAIL DEMO ↗</button>
         </article>
         <article class="card showcase-card">
-          <div class="showcase-code">PROJECT 04 <span class="showcase-type">PRACTICE DEMO</span></div>
-          <h3>Conditional Workflow Routing</h3>
-          <p><strong>Goal:</strong> Show how different requests can follow different processing paths.</p>
-          <p><strong>Workflow concept:</strong> Incoming request → condition check → appropriate next step.</p>
+          <div class="showcase-code">CASE 04 <span class="showcase-type">DEMO BUILD</span></div>
+          <h3>Smart Request Routing</h3>
+          <p><strong>Problem:</strong> Sales questions, support issues, and general inquiries all land in one inbox and someone has to sort them by hand.</p>
+          <p><strong>Workflow:</strong> Incoming request → Make.com router checks the request type → sends it to sales, support, or the general queue.</p>
+          <p><strong>Value:</strong> Each request reaches the right person first time, with no manual triage.</p>
           <div class="showcase-skill"><span class="tag">MAKE.COM</span><span class="tag">LOGIC</span><span class="tag">ROUTERS</span></div>
           <button class="btn demo-launch" type="button" data-demo="4">TRY ROUTER DEMO ↗</button>
         </article>
@@ -1825,36 +1851,55 @@ body.demo-open > .camera-orbit,body.demo-open > #aiPresenter { visibility:hidden
       <div class="proof-strip">
         <div><strong>Operational Support</strong><span>Documentation, records, financial reporting, and team coordination</span></div>
         <div><strong>Research & Data Skills</strong><span>Survey support, structured records, data validation, and detail-focused work</span></div>
-        <div><strong>Automation Learning</strong><span>Zapier, Make.com, n8n, HighLevel, Google tools, and Telegram</span></div>
+        <div><strong>Automation Toolkit</strong><span>Zapier, Make.com, n8n, HighLevel, Google Workspace, and Telegram</span></div>
       </div>
     </section>
 
-    <section id="feedback" class="reveal" aria-label="Client testimonials samples">
-      <div class="section-label">05 / CLIENT TESTIMONIALS</div>
-      <h2>Client <span class="green">Testimonials</span></h2>
-      <p class="section-text">Sample testimonials with example names and quotes. Replace with approved client feedback when available.</p>
-      <div class="feedback-grid">
-        <article class="card quote-card">
-          <div class="quote-label">CLIENT FEEDBACK · SAMPLE</div>
-          <p class="quote-text">“Gail explained the workflow in a clear and organized way, making it easier to understand the next steps.”</p>
-          <p class="quote-credit">Maria Santos</p>
+    <section id="services" class="reveal" aria-label="Services">
+      <div class="section-label">05 / SERVICES</div>
+      <h2>What I Can <span class="green">Do For You</span></h2>
+      <div class="cards">
+        <article class="card">
+          <h3>LEAD &amp; FORM AUTOMATION</h3>
+          <p>Capture leads from forms and landing pages, clean the data, and send it straight to your CRM or spreadsheet.</p>
+          <span class="tag">ZAPIER</span><span class="tag">MAKE.COM</span>
         </article>
-        <article class="card quote-card">
-          <div class="quote-label">CLIENT FEEDBACK · SAMPLE</div>
-          <p class="quote-text">“Her attention to detail and structured approach made the project plan easy to follow.”</p>
-          <p class="quote-credit">Daniel Reyes</p>
+        <article class="card">
+          <h3>CRM SETUP &amp; FOLLOW-UPS</h3>
+          <p>HighLevel pipelines, tags, and follow-up sequences, so no lead goes cold.</p>
+          <span class="tag">HIGHLEVEL</span>
         </article>
-        <article class="card quote-card">
-          <div class="quote-label">CLIENT FEEDBACK · SAMPLE</div>
-          <p class="quote-text">“The proposed process showed how simple automation could support more consistent communication.”</p>
-          <p class="quote-credit">Sofia Cruz</p>
+        <article class="card">
+          <h3>NOTIFICATIONS &amp; ROUTING</h3>
+          <p>Send the right alert to the right person on email, Telegram, or Slack the moment something happens.</p>
+          <span class="tag">ROUTERS</span><span class="tag">ALERTS</span>
+        </article>
+        <article class="card">
+          <h3>DATA CLEANUP &amp; REPORTING</h3>
+          <p>Organize messy spreadsheets, set up validation, and automate recurring reports.</p>
+          <span class="tag">GOOGLE SHEETS</span>
+        </article>
+        <article class="card">
+          <h3>AI-ASSISTED WORKFLOWS</h3>
+          <p>n8n workflows that use AI steps to sort, summarize, or draft replies to incoming messages.</p>
+          <span class="tag">N8N</span><span class="tag">AI</span>
+        </article>
+        <article class="card">
+          <h3>PROCESS DOCUMENTATION</h3>
+          <p>Clear write-ups of every workflow I build, so your team knows what runs, when, and why.</p>
+          <span class="tag">SOPS</span>
         </article>
       </div>
-      <p class="feedback-note"></p>
+      <ol class="process-steps">
+        <li><strong>1 · Map</strong><span>We walk through how the task is done today.</span></li>
+        <li><strong>2 · Build</strong><span>I build the workflow in the tool that fits your stack.</span></li>
+        <li><strong>3 · Test</strong><span>I run it against real and edge-case data before launch.</span></li>
+        <li><strong>4 · Hand over</strong><span>You get documentation and support after launch.</span></li>
+      </ol>
     </section>
 
     <section id="experience" class="reveal scene-block angle-left" data-scene="experience">
-      <div class="section-label">05 / OPERATIONAL LOGS</div>
+      <div class="section-label">06 / WORK HISTORY</div>
       <h2>Professional <span class="green">Experience</span></h2>
       <div class="timeline">
         <article class="card">
@@ -1868,7 +1913,7 @@ body.demo-open > .camera-orbit,body.demo-open > #aiPresenter { visibility:hidden
           </ul>
         </article>
         <article class="card">
-          <h3>Contract Tracer</h3>
+          <h3>Contact Tracer</h3>
           <p>DILG Philippines · March–November 2020</p>
           <ul>
             <li>Conducted contact tracing interviews and gathered essential case and contact details.</li>
@@ -1894,13 +1939,13 @@ body.demo-open > .camera-orbit,body.demo-open > #aiPresenter { visibility:hidden
 
     <section id="contact" class="reveal scene-block angle-center" data-scene="contact">
       <div class="contact-box">
-        <div class="section-label">06 / CONNECTION REQUEST</div>
+        <div class="section-label">07 / CONNECTION REQUEST</div>
         <h2>Let's Automate <span class="green">Something Great</span></h2>
         <p class="section-text" style="margin-inline:auto">
-          Looking for organized administrative support and an enthusiastic
-          learner in workflow automation? Let's connect.
+          Tell me which task eats up your team's week. I'll map it out and show
+          you how it could run on its own. The first call is free.
         </p>
-        <!-- Replace the example email with your real email address -->
+        <p class="section-text contact-email" style="margin-inline:auto">abegailalbea97@gmail.com · 0915 021 0143</p>
         <div class="buttons" style="justify-content:center">
           <a class="btn primary"
              href="mailto:abegailalbea97@gmail.com">SEND EMAIL</a>
@@ -2182,12 +2227,12 @@ body.demo-open > .camera-orbit,body.demo-open > #aiPresenter { visibility:hidden
   const output=document.getElementById('presenterText');
   const messages={
     home:['HI, I’M AL',"Hi, I’m AL. I’m here to guide you through Gail’s portfolio. How may I help you today?"],
-    about:['OPERATOR PROFILE',"Meet Abegail Albea. Her background is in operations, documentation, and customer support."],
-    skills:['TECHNOLOGY MATRIX',"Explore Gail's developing skills in Zapier, Make.com, n8n, and GoHighLevel."],
+    about:['OPERATOR PROFILE',"Meet Abegail Albea. She has worked with data and operations since 2019, and now she automates that work."],
+    skills:['TECHNOLOGY MATRIX',"Gail builds workflows in Zapier, Make.com, n8n, and HighLevel."],
     certificates:['CERTIFICATE DATABASE',"Access four training completion certificates and view the original documents."],
-    projects:['AUTOMATION TEST LAB',"View practice automation workflows and interactive demonstration projects."],
-    experience:['OPERATIONAL LOGS',"Review Gail's experience in branch operations, public service, and research."],
-    contact:['ESTABLISH CONNECTION',"Interested in working with Gail? Use the email or phone contact buttons."]
+    projects:['WORKFLOW CASE STUDIES',"See four workflows Gail built. Each one has a live demo you can try."],
+    experience:['WORK HISTORY',"Review Gail's experience in branch operations, public service, and research."],
+    contact:['ESTABLISH CONNECTION',"Have a task that eats up your week? Book a free call with Gail."]
   };
   let active='';
   let timer;
