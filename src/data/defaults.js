@@ -59,6 +59,17 @@ export const services = [
 
 export const experience = [
   {
+    id: 'e0', role: 'Automation Specialist · Independent Projects', org: 'Self-directed · Remote', period: '2025–Present',
+    bullets: [
+      'Designed and built lead-capture workflows that send Google Forms responses into cleaned, formatted Google Sheets.',
+      'Built instant Telegram alert workflows so teams hear about new inquiries within seconds.',
+      'Created automatic, personalized Gmail confirmation emails triggered by new form submissions.',
+      'Built Make.com router scenarios that sort incoming requests into sales, support, or general queues.',
+      'Built this portfolio as a React app with a Supabase backend for contact messages, testimonials, and visit stats.',
+    ],
+    skills: 'Zapier, Make.com, n8n, HighLevel, Google Workspace, Telegram, Supabase, workflow design, testing, and documentation.',
+  },
+  {
     id: 'e1', role: 'Assistant Branch Manager', org: 'M Lhuillier Pawnshop · Philippines', period: null,
     bullets: [
       'Supported daily branch operations and compliance procedures.',
