@@ -34,7 +34,7 @@ export function About() {
         M Lhuillier.
       </p>
       <p className="section-text">
-        Today I automate that kind of work for businesses. I connect forms, spreadsheets, email,
+        Since June 2024 I've automated that kind of work for clients and for my own branch. I connect forms, spreadsheets, email,
         CRMs, and messaging apps with Zapier, Make.com, n8n, and HighLevel. Leads get captured,
         data gets cleaned up, and follow-ups go out without anyone copy-pasting. I map your
         process first, build the workflow, test it against messy real-world data, and document

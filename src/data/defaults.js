@@ -59,8 +59,10 @@ export const services = [
 
 export const experience = [
   {
-    id: 'e0', role: 'Automation Specialist · Independent Projects', org: 'Self-directed · Remote', period: '2025–Present',
+    id: 'e0', role: 'Automation Developer', org: 'Freelance clients & in-house · Remote', period: 'June 2024–Present',
     bullets: [
+      'Build and maintain workflow automations for clients using Zapier, Make.com, n8n, and HighLevel.',
+      'Automated repetitive record-keeping and reporting tasks at my M Lhuillier branch alongside my Assistant Branch Manager role.',
       'Designed and built lead-capture workflows that send Google Forms responses into cleaned, formatted Google Sheets.',
       'Built instant Telegram alert workflows so teams hear about new inquiries within seconds.',
       'Created automatic, personalized Gmail confirmation emails triggered by new form submissions.',

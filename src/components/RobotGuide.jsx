@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 const MESSAGES = {
   home: ['HI, I’M AL', 'Hi, I’m AL. I’m here to guide you through Gail’s portfolio. How may I help you today?'],
-  about: ['OPERATOR PROFILE', 'Meet Abegail Albea. She has worked with data and operations since 2019, and now she automates that work.'],
+  about: ['OPERATOR PROFILE', 'Meet Abegail Albea. She has built automations for clients since 2024, backed by data and operations work since 2019.'],
   skills: ['TECHNOLOGY MATRIX', 'Gail builds workflows in Zapier, Make.com, n8n, and HighLevel.'],
   certificates: ['CERTIFICATE DATABASE', 'Access four training completion certificates and view the original documents.'],
   projects: ['WORKFLOW CASE STUDIES', 'See four workflows Gail built. Each one has a live demo you can try.'],

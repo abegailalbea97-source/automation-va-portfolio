@@ -27,15 +27,15 @@ export default function Hero() {
         <h1>ABEGAIL<br /><span>ALBEA</span></h1>
         <div className="subtitle">AUTOMATION VIRTUAL ASSISTANT</div>
         <p className="intro">
-          I turn repetitive admin work into reliable, automated workflows. Since 2019 I've
-          worked with data, records, and reports in government research, public health, and
-          branch operations. Now I build the automations that handle that work for you, using
-          Zapier, Make.com, n8n, and HighLevel.
+          I turn repetitive admin work into reliable, automated workflows. I've been building
+          automations for clients since 2024 with Zapier, Make.com, n8n, and HighLevel, backed
+          by work with data, records, and reports since 2019 in government research, public
+          health, and branch operations.
         </p>
         <ul className="hero-proof">
+          <li><strong>2+</strong><span>years building automations</span></li>
+          <li><strong>4</strong><span>automation platforms</span></li>
           <li><strong>2019</strong><span>working with data &amp; records since</span></li>
-          <li><strong>4</strong><span>automation platforms trained</span></li>
-          <li><strong>3</strong><span>roles in data &amp; operations</span></li>
         </ul>
         <div className="buttons">
           <a className="btn primary" href="#projects" onClick={() => track('cta_click', 'hero_workflows')}>SEE MY WORKFLOWS</a>
